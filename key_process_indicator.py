@@ -7,14 +7,6 @@
 #
 # Import the required libraries and modules.
 #
-import os
-# Check current working directory
-current_working_directory = os.getcwd()
-print (current_working_directory)
-# Change directory
-os.chdir("../../../")
-current_working_directory = os.getcwd()
-print (current_working_directory)
 # Read the data file.
 # The file format is csv. There are various columns of daily commits and
 # labels.
@@ -38,3 +30,13 @@ print (current_working_directory)
 #
 # Plot a graph of total commits v. the date.
 # Save the graph as svg, png, and pdf.
+# Directory and OS commands
+import os
+# Check current working directory
+current_working_directory = os.getcwd()
+print (current_working_directory)
+# Change directory
+os.chdir("../../../")
+current_working_directory = os.getcwd()
+print (current_working_directory)
+
