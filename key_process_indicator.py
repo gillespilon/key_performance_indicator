@@ -8,8 +8,7 @@
 # Import the required libraries and modules.
 #
 # Read the data file.
-# The file format is csv. There are various columns of daily commits and
-# labels.
+# The file format is csv utf-8. There are several columns of daily commits.
 #
 # Calculate a column of total daily commits.
 #
