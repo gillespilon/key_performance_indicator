@@ -10,7 +10,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 commits = pd.read_csv('kpis.csv', parse_dates=True, index_col='Date')
-commits['Total']= commits.Private + commits.Support + commits.Jupyter + commits.Tableau
+commits['Total']= commits.Private + commits.Support + commits.Jupyter + \
+        commits.Tableau + commits.KPI
 commits['Median'] = commits['Total'].median()
 
 title = 'Key Performance Indicator'
@@ -23,7 +24,7 @@ xlabel = 'Date'
 # Create a single subplot
 ax1 = plt.subplot(111)
 # Plot "total commits v. date"
-commits[['Private', 'Support', 'Jupyter', 'Tableau']] \
+commits[['Private', 'Support', 'Jupyter', 'KPI', 'Tableau']] \
     .plot.line(legend=True, ax=ax1, marker='o', markersize=3).axis('auto')
 # Remove the top and right spines
 ax1.spines['right'].set_color('none')
