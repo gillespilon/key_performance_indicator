@@ -19,10 +19,7 @@
 # Calculate the maxium for the total number of commits. This will be used
 # for plotting themedian line.
 #
-# Define the graph title.
-# Define the graph subtitle.
-# Define the graph y axis label.
-# Define the graph x axis label.
+# Define the graph title and subtitle, and the x and y axis labels.
 #
 # Plot a graph of daily commits for each KPI v. the date.
 # Save the graph as svg, png, and pdf.
