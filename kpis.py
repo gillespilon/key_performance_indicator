@@ -5,15 +5,19 @@
 # This code will calculate the number of commits and plot a line graph of
 # commits v. date.
 #
+# Import the required libraries and modules.
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Read the data file.
+# The file format is csv utf-8. There are several columns of daily commits.
 commits = pd.read_csv('kpis.csv', parse_dates=True, index_col='Date')
 commits['Total']= commits.Private + commits.Support + commits.Jupyter + \
         commits.Tableau + commits.KPI
 commits['Median'] = commits['Total'].median()
 
+# Define the graph title and subtitle, and the x and y axis labels.
 title = 'Key Performance Indicator'
 subtitle = 'Git Commits'
 ylabel = 'Commits'
