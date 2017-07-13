@@ -13,8 +13,8 @@ import numpy as np
 # Read the data file.
 # The file format is csv utf-8. There are several columns of daily commits.
 commits = pd.read_csv('kpis.csv', parse_dates=True, index_col='Date')
-commits['Total']= commits.Private + commits.Support + commits.Jupyter + \
-        commits.Tableau + commits.KPI
+commits['Total']= commits.ForteFoto + commits.Private + commits.Support + \
+        commits.Jupyter + commits.Tableau + commits.KPI
 commits['Median'] = commits['Total'].median()
 
 # Define the graph title and subtitle, and the x and y axis labels.
@@ -28,7 +28,7 @@ xlabel = 'Date'
 # Create a single subplot
 ax1 = plt.subplot(111)
 # Plot "total commits v. date"
-commits[['Private', 'Support', 'Jupyter', 'KPI', 'Tableau']] \
+commits[['ForteFoto', 'Private', 'Support', 'Jupyter', 'KPI', 'Tableau']] \
     .plot.line(legend=True, ax=ax1, marker='o', markersize=3).axis('auto')
 # Remove the top and right spines
 ax1.spines['right'].set_color('none')
