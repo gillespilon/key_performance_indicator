@@ -13,12 +13,8 @@
 #
 # Calculate a column of total daily commits.
 #
-# Calculate the median for the total number of commits. This will be used
-# for the median line.
-# Calculate the minimum for the total number of commits. This will be used
-# for plotting the median line.
-# Calculate the maxium for the total number of commits. This will be used
-# for plotting themedian line.
+# Calculate a column of the median of the column of total daily commits.
+# One day fix this so that it's not an additional column, but a number to plot.
 #
 # Define the graph title and subtitle, and the x and y axis labels.
 #
