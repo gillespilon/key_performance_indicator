@@ -10,8 +10,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Read the data file.
-# The file format is csv utf-8. There are several columns of daily commits.
+# Read the csv data file. It is encoded in UTF-8.
+# There are several columns of daily commits.
 commits = pd.read_csv('kpis.csv', parse_dates=True, index_col='Date')
 commits['Total']= commits.ForteFoto + commits.Private + commits.Support + \
         commits.Jupyter + commits.Tableau + commits.KPI
