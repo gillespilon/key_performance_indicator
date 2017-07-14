@@ -14,6 +14,7 @@ import numpy as np
 # There are several columns of daily commits.
 # Set "date" as the index.
 commits = pd.read_csv('kpis.csv', parse_dates=True, index_col='Date')
+# Calculate a column of total daily commits.
 commits['Total']= commits.ForteFoto + commits.Private + commits.Support + \
         commits.Jupyter + commits.Tableau + commits.KPI
 commits['Median'] = commits['Total'].median()
