@@ -18,11 +18,46 @@
 #
 # Define the graph title and subtitle, and the x and y axis labels.
 #
-# Plot a graph of daily commits for each KPI v. the date.
-# Save the graph as svg, png, and pdf.
+# Create a grpah of "total commits v. date".
 #
-# Plot a graph of total commits v. the date.
-# Save the graph as svg, png, and pdf.
+# Create a single subplot.
+#
+# Plot "total commits v. date".
+#
+# Remove the top and right spines.
+#
+# Place ticks outside the axes.
+#
+# Add the Y axis label.
+#
+# Add the X axis label.
+#
+# Remove the box around the legend.
+#
+# Save the graph as svg and pdf.
+#
+# Close the current figure window.
+#
+# Create a graph of "total commits v. date".
+#
+# Create a single subplot.
+#
+# Plot "total commits v. date".
+#
+# Remove the top and right spines.
+#
+# Place the ticks outside the axes.
+#
+# Add the graph title and subtitle.
+#
+# Add the Y axis label.
+#
+# Add the X axis label.
+#
+# Remove the box around the legend.
+#
+# Save the graph as svg and pdf.
+#
 # Directory and OS commands
 import os
 # Check current working directory
