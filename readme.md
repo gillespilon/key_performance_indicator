@@ -10,7 +10,7 @@ The data file is available [here (kpis.csv)](https://drive.google.com/file/d/0Bz
 
 ## Methodology
 
-I will write the methodology for this repository.
+A Git "commit" is a recorded change to a repository. Each day an office worker determines the number of commits made for each repository, records the values in the kpis.csv file, and executes kpis.py or kpis.ipynb. A graph of individual commits v. date and a graph of total commits v. date are created and saved in svg and pdf formats.
 
 ## License
 
