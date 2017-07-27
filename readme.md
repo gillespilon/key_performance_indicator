@@ -6,7 +6,7 @@ Office workers usually work on creating, updating, and publishing documents. Whe
 
 ## Data
 
-The data file is available [here (kpis.csv)](https://drive.google.com/file/d/0BzrdQfHR2I5Dc0o5X3puNHUxdTQ/view?usp=sharing). It consists of a date column and six KPI data columns. Dates are entered using [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date format (yyyy-mm-dd).
+The data file is available [here (kpis.csv)](https://drive.google.com/file/d/0BzrdQfHR2I5Dc0o5X3puNHUxdTQ/view?usp=sharing). It consists of a date column and six KPI data columns. Dates are entered using [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date format (yyyy-mm-dd). The values in the KPI columns are the number of commits for each KPI.
 
 ## Methodology
 
