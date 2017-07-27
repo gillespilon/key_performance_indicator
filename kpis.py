@@ -15,7 +15,7 @@ import numpy as np
 # Set "date" as the index.
 commits = pd.read_csv('kpis.csv', parse_dates=True, index_col='Date')
 # Calculate a column of total daily commits.
-commits['Total']= commits.ForteFoto + commits.Private + commits.Support + \
+commits['Total']= commits.ForteF + commits.Private + commits.Support + \
         commits.Jupyter + commits.Tableau + commits.KPI
 # Calculate a column of the median of the column of total daily commits.
 # One day fix this so that it's not an additional column, but a number to plot.
@@ -32,7 +32,7 @@ xlabel = 'Date'
 # Create a single subplot.
 ax1 = plt.subplot(111)
 # Plot "total commits v. date".
-commits[['ForteFoto', 'Private', 'Support', 'Jupyter', 'KPI', 'Tableau']] \
+commits[['ForteF', 'Private', 'Support', 'Jupyter', 'KPI', 'Tableau']] \
     .plot.line(legend=True, ax=ax1, marker='o', markersize=3).axis('auto')
 # Remove the top and right spines.
 ax1.spines['right'].set_color('none')
