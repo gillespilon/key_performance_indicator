@@ -16,7 +16,8 @@ import numpy as np
 commits = pd.read_csv('kpis.csv', parse_dates=True, index_col='Date')
 # Calculate a column of total daily commits.
 commits['Total']= commits.ForteF + commits.Private + commits.Support + \
-        commits.Jupyter + commits.Tableau + commits.KPI
+        commits.Jupyter + commits.Tableau + commits.KPI + commits.MSHA + \
+        commits.Anscombe + commits.Cholera
 # Calculate a column of the median of the column of total daily commits.
 # One day fix this so that it's not an additional column, but a number to plot.
 commits['Median'] = commits['Total'].median()
@@ -32,8 +33,10 @@ xlabel = 'Date'
 # Create a single subplot.
 ax1 = plt.subplot(111)
 # Plot "total commits v. date".
-commits[['ForteF', 'Private', 'Support', 'Jupyter', 'KPI', 'Tableau']] \
-    .plot.line(legend=True, ax=ax1, marker='o', markersize=3).axis('auto')
+commits[['ForteF', 'Private', 'Support', 'Jupyter', 'Tableau', 'KPI', \
+         'MSHA', 'Anscombe', 'Cholera']] \
+         .plot.line(legend=True, ax=ax1, marker='o', markersize=3)\
+         .axis('auto')
 # Remove the top and right spines.
 ax1.spines['right'].set_color('none')
 ax1.spines['top'].set_color('none')
@@ -60,7 +63,8 @@ plt.close()
 # Create a single subplot.
 ax2 = plt.subplot(111)
 # Plot "total commits v. date".
-commits['Total'].plot.line(legend=True, ax=ax2, marker='o', markersize=3).axis('auto')
+commits['Total'].plot.line(legend=True, ax=ax2, marker='o', \
+        markersize=3).axis('auto')
 commits['Median'].plot.line(legend=True, ax=ax2).axis('auto')
 # Remove the top and right spines.
 ax2.spines['right'].set_color('none')
