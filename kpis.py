@@ -33,8 +33,7 @@ xlabel = 'Date'
 # Create a single subplot.
 ax1 = plt.subplot(111)
 # Plot "total commits v. date".
-commits[['ForteF', 'Private', 'Support', 'Jupyter', 'Tableau', 'KPI', \
-         'MSHA', 'Anscombe', 'Cholera', 'ImpactEffort']] \
+commits[['Private', 'Support']] \
          .plot.line(legend=True, ax=ax1, marker='o', markersize=3)\
          .axis('auto')
 # Remove the top and right spines.
