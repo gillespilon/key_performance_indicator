@@ -8,7 +8,6 @@
 # Import the required libraries and modules.
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 
 # Read the csv data file. It is encoded in UTF-8.
 # There are several columns of daily commits.
