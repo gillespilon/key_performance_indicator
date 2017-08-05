@@ -14,7 +14,7 @@ A Git "commit" is a recorded change to a repository. Each day an office worker d
 
 ## License
 
-Copyright (c) 2017 GILLES PILON <gillespilon@gmail.com>
+Copyright (c) 2017 GILLES PILON <gillespilon13@gmail.com>
 
 Permission to use, copy, modify, and distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
 
