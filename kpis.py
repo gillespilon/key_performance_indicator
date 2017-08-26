@@ -17,7 +17,7 @@ commits = pd.read_csv('kpis.csv', parse_dates=True, index_col='Date')
 commits['Total']= commits.ForteF + commits.Private + commits.Support + \
         commits.Jupyter + commits.Tableau + commits.KPI + commits.MSHA + \
         commits.Anscombe + commits.Cholera + commits.ImpactEffort +\
-        commits.PSA
+        commits.PSA + commits.HT1ST + commits.HT2ST + commits.HTPT
 # Calculate a column of the median of the column of total daily commits.
 # One day fix this so that it's not an additional column, but a number to plot.
 commits['Median'] = commits['Total'].median()
