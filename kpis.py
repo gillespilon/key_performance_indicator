@@ -11,7 +11,14 @@
 # worker were to commit their documents to a Git repository, they could make
 # their work visible . These commits could then be reported as a key
 # performance indicator (KPI).
-
+#
+# Data
+# The data file is available
+# [here (kpis.csv)](https://drive.google.com/file/d/0BzrdQfHR2I5Dc0o5X3puNHUxdTQ/view?usp=sharing).
+# It consists of a date column and six KPI data columns. Dates are entered
+# using ISO 8601 date format (yyyy-mm-dd). The KPI columns are the number of
+# commits per KPI.
+#
 # Import the required libraries and modules.
 import pandas as pd
 import matplotlib.pyplot as plt
