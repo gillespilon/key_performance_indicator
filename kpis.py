@@ -62,10 +62,6 @@ commits[['Private', 'Support']] \
 # Remove the top and right spines.
 for spine in 'right', 'top':
     ax1.spines[spine].set_color('none')
-# Place the ticks outside the axes.
-ax1.tick_params(direction='out')
-ax1.xaxis.set_ticks_position('bottom')
-ax1.yaxis.set_ticks_position('left')
 ax1.set_title(title + '\n' + subtitle)
 # Add the Y axis label.
 ax1.set_ylabel(ylabel)
