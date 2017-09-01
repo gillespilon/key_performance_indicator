@@ -1,9 +1,6 @@
 #! /usr/bin/env python3
 
-# Key Process Indicators (KPIs)
-#
-# This code will calculate the number of commits and plot a line graph of
-# commits v. date.
+# Key Performance Indicators (KPIs)
 #
 # Import the required libraries and modules.
 import pandas as pd
