@@ -89,8 +89,8 @@ commits['Total'].plot.line(legend=True, ax=ax2, marker='o', \
         markersize=3).axis('auto')
 commits['Median'].plot.line(legend=True, ax=ax2).axis('auto')
 # Remove the top and right spines.
-ax2.spines['right'].set_color('none')
-ax2.spines['top'].set_color('none')
+for spine in 'right', 'top':
+    ax2.spines[spine].set_color('none')
 # Place the ticks outside the axes.
 ax2.tick_params(direction='out')
 ax2.xaxis.set_ticks_position('bottom')
