@@ -87,10 +87,6 @@ commits['Median'].plot.line(legend=True, ax=ax2).axis('auto')
 # Remove the top and right spines.
 for spine in 'right', 'top':
     ax2.spines[spine].set_color('none')
-# Place the ticks outside the axes.
-ax2.tick_params(direction='out')
-ax2.xaxis.set_ticks_position('bottom')
-ax2.yaxis.set_ticks_position('left')
 # Add the graph title and subtitle.
 #ax2.set_title(r'\textbf{' + title + '}' + '\n' + subtitle)
 ax2.set_title(title + '\n' + subtitle)
