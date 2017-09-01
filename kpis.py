@@ -19,6 +19,13 @@
 # using ISO 8601 date format (yyyy-mm-dd). The KPI columns are the number of
 # commits per KPI.
 #
+# Methodology
+# A Git "commit" is a recorded change to a repository. Each day an office
+# worker determines the number of commits made for each repository, records
+# the values in the kpis.csv file, and executes kpis.py or kpis.ipynb. A
+# graph of individual commits v. date and a graph of total commits v. date are
+# created and saved in svg and pdf formats.
+#
 # Import the required libraries and modules.
 import pandas as pd
 import matplotlib.pyplot as plt
