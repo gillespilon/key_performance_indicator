@@ -60,8 +60,8 @@ commits[['Private', 'Support']] \
          .plot.line(legend=True, ax=ax1, marker='o', markersize=3)\
          .axis('auto')
 # Remove the top and right spines.
-ax1.spines['right'].set_color('none')
-ax1.spines['top'].set_color('none')
+for spine in 'right', 'top':
+    ax1.spines[spine].set_color('none')
 # Place the ticks outside the axes.
 ax1.tick_params(direction='out')
 ax1.xaxis.set_ticks_position('bottom')
