@@ -88,8 +88,8 @@ plt.close()
 ax2 = plt.subplot(111)
 # Plot "total commits v. date".
 commits['Total'].plot.line(legend=True, ax=ax2, marker='o', \
-        markersize=3).axis('auto')
-commits['Median'].plot.line(legend=True, ax=ax2).axis('auto')
+        markersize=3, color=line_total).axis('auto')
+commits['Median'].plot.line(legend=True, ax=ax2, color=line_median).axis('auto')
 # Remove the top and right spines.
 for spine in 'right', 'top':
     ax2.spines[spine].set_color('none')
