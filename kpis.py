@@ -51,13 +51,19 @@ subtitle = 'Git Commits'
 ylabel = 'Commits'
 xlabel = 'Date'
 
+# Use a colour-blind friendly colormap, "Paired".
+import matplotlib.cm as cm
+line_private, line_support, line_total, line_median, *_ = cm.Paired.colors
+
 # Create a graph of "individual commits v. date".
 #
 # Create a single subplot.
 ax1 = plt.subplot(111)
 # Plot "total commits v. date".
+colourset = (line_private, line_support)
 commits[['Private', 'Support']] \
-         .plot.line(legend=True, ax=ax1, marker='o', markersize=3)\
+         .plot.line(legend=True, ax=ax1, marker='o', markersize=3,
+                    color=colourset)\
          .axis('auto')
 # Remove the top and right spines.
 for spine in 'right', 'top':
