@@ -87,9 +87,9 @@ plt.close()
 # Create a single subplot.
 ax2 = plt.subplot(111)
 # Plot "total commits v. date".
-commits['Total'].plot.line(legend=True, ax=ax2, marker='o', \
+commits['Total'].plot.line(legend=False, ax=ax2, marker='o', \
         markersize=3, color=line_total).axis('auto')
-commits['Median'].plot.line(legend=True, ax=ax2, color=line_median).axis('auto')
+commits['Median'].plot.line(legend=False, ax=ax2, color=line_median).axis('auto')
 # Remove the top and right spines.
 for spine in 'right', 'top':
     ax2.spines[spine].set_color('none')
@@ -100,8 +100,6 @@ ax2.set_title(title + '\n' + subtitle)
 ax2.set_ylabel(ylabel)
 # Add the X axis label.
 ax2.set_xlabel(xlabel)
-# Remove the box around the legend.
-ax2.legend(frameon=False)
 # Save the graph as svg and pdf
 ax2.figure.savefig('kpi_commits_total.svg', format='svg')
 ax2.figure.savefig('kpi_commits_total.pdf', format='pdf')
