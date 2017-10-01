@@ -47,8 +47,8 @@ commits['Median'] = commits['Total'].median()
 
 # Define the graph title and subtitle, and the x and y axis labels.
 title = 'Key Performance Indicator'
-subtitle = 'Git Commits'
-ylabel = 'Commits'
+subtitle = 'Files Updated'
+ylabel = 'Number of Files Updated'
 xlabel = 'Date'
 
 # Use a colour-blind friendly colormap, "Paired".
