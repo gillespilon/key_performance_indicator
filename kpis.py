@@ -1,105 +1,89 @@
 #! /usr/bin/env python3
 
-# Key Performance Indicators (KPIs)
-#
-# In brevi
-#
-# Office workers create, update, and publish documents. Whether it's
-# creating presentations, responding to emails, or doing statistical analysis,
-# they are creating documents. Unlike a manufacturing environment, their
-# output appears invisible to an observer of their work process. If such a
-# worker were to commit their documents to a Git repository, they could make
-# their work visible . These commits could then be reported as a key
-# performance indicator (KPI).
-#
-# Data
-# The data file is available
-# [here (kpis.csv)](https://drive.google.com/file/d/0BzrdQfHR2I5Dc0o5X3puNHUxdTQ/view?usp=sharing).
-# It consists of a date column and six KPI data columns. Dates are entered
-# using ISO 8601 date format (yyyy-mm-dd). The KPI columns are the number of
-# commits per KPI.
-#
-# Methodology
-# A Git "commit" is a recorded change to a repository. Each day an office
-# worker determines the number of commits made for each repository, records
-# the values in the kpis.csv file, and executes kpis.py or kpis.ipynb. A
-# graph of individual commits v. date and a graph of total commits v. date are
-# created and saved in svg and pdf formats.
-#
-# Import the required libraries and modules.
+'''
+Calculate the number of daily commits for all git repositories.
+Draw a scatter plot of daily commits versus date.
+'''
+
+import subprocess
+from os import path
+from dateutil.parser import parse as parsedate
+
+
 import pandas as pd
-import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import matplotlib.axes as axes
 
-# Read the csv data file. It is encoded in UTF-8.
-# There are several columns of daily commits.
-# Set "date" as the index.
-commits = pd.read_csv('kpis.csv', parse_dates=True, index_col='Date')
-# Calculate a column of total daily commits.
-commits['Total']= commits['ForteF'] + commits['Private'] + \
-        commits['Support'] + commits['Jupyter'] + commits['Tableau'] + \
-        commits['KPI'] + commits['MSHA'] + commits['Anscombe'] + \
-        commits['Cholera'] + commits['ImpactEffort'] + commits['PSA'] + \
-        commits['HT1ST'] + commits['HT2ST'] + commits['HTPT'] + \
-        commits['ControlCharts'] + commits['BoxPlot']
-# Calculate a column of the median of the column of total daily commits.
-# One day fix this so that it's not an additional column, but a number to plot.
-commits['Median'] = commits['Total'].median()
 
-# Define the graph title and subtitle, and the x and y axis labels.
-title = 'Key Performance Indicator'
-subtitle = 'Files Updated'
-ylabel = 'Number of Files Updated'
+c = cm.Paired.colors
+# c[0] c[1] ... c[11]
+# See "paired" in "qualitative colormaps"
+# https://matplotlib.org/tutorials/colors/colormaps.html
+
+
+title = 'Daily commits'
+ylabel = 'Number of commits'
 xlabel = 'Date'
 
-# Use a colour-blind friendly colormap, "Paired".
-import matplotlib.cm as cm
-line_private, line_support, line_total, line_median, *_ = cm.Paired.colors
 
-# Create a graph of "individual commits v. date".
-#
-# Create a single subplot.
-ax1 = plt.subplot(111)
-# Plot "total commits v. date".
-colourset = (line_private, line_support)
-commits[['Private', 'Support']] \
-         .plot.line(legend=True, ax=ax1, marker='o', markersize=3,
-                    color=colourset)\
-         .axis('auto')
-# Remove the top and right spines.
-for spine in 'right', 'top':
-    ax1.spines[spine].set_color('none')
-ax1.set_title(title + '\n' + subtitle)
-# Add the Y axis label.
-ax1.set_ylabel(ylabel)
-# Add the X axis label.
-ax1.set_xlabel(xlabel)
-# Remove the box around the legend.
-ax1.legend(frameon=False)
-# Save the graph as svg and pdf.
-ax1.figure.savefig('kpi_commits.svg', format='svg')
-ax1.figure.savefig('kpi_commits.pdf', format='pdf')
+def dataframes(repository_path):
+    '''
+    Create a dataframe with count column for each repository.
+    '''
+    history = subprocess.check_output(
+        ['git', 'log', '--pretty=%aI', '--author=Gilles'],
+        cwd=path.expanduser(f'~/documents/websites/{repository_path}'),
+        universal_newlines=True).splitlines()
+    dates = list(map(parsedate, history))
+    df = pd.DataFrame.from_dict({'Date': dates}, dtype='datetime64[ns]')\
+                     .set_index('Date')
+    df['count'] = 1
+    df = df.groupby(df.index.date).count()
+    df = df.reset_index().rename(columns={'index':'date'})
+    return df
 
-# Close the current figure window.
-plt.close()
 
-# Create a graph of "total commits v. date".
+def despine(ax: axes.Axes) -> None:
+    '''
+    Remove the top and right spines of a graph.
+    '''
+    for spine in 'right', 'top':
+        ax.spines[spine].set_color('none')
 
-# Create a single subplot.
-ax2 = plt.subplot(111)
-# Plot "total commits v. date".
-commits['Total'].plot.line(legend=False, ax=ax2, marker='o', \
-        markersize=3, color=line_total).axis('auto')
-commits['Median'].plot.line(legend=False, ax=ax2, color=line_median).axis('auto')
-# Remove the top and right spines.
-for spine in 'right', 'top':
-    ax2.spines[spine].set_color('none')
-# Add the graph title and subtitle.
-#ax2.set_title(r'\textbf{' + title + '}' + '\n' + subtitle)
-ax2.set_title(title + '\n' + subtitle)
-# Add the Y axis label.
-ax2.set_ylabel(ylabel)
-# Add the X axis label.
-ax2.set_xlabel(xlabel)
-# Save the graph as svg and pdf
-ax2.figure.savefig('kpi_commits_total.svg', format='svg')
-ax2.figure.savefig('kpi_commits_total.pdf', format='pdf')
+
+def plot_scatter(df, column_name):
+    '''
+    Scatter plot of column_name versus index.
+    '''
+    ax = df.plot.line(y=column_name,
+                      legend=False,
+                      style='.',
+                      color=c[0],
+                      rot=45)
+    ax.set_ylabel(column_name)
+    ax.set_xlabel('date')
+    ax.set_title(f'{title}', fontweight='bold')
+    ax.autoscale(tight=False)
+    ax.axhline(int(df[column_name].median()), color=c[1])
+    despine(ax)
+    ax.figure.savefig(f'commits_daily.svg', format='svg')
+
+
+parameters = pd.read_csv('repositories.csv',index_col=False)
+repository_path = parameters['Repository path']
+
+
+commits = pd.DataFrame(columns=['date', 'count'])
+for item in repository_path:
+    commits_item = dataframes(item)
+    commits = pd.merge(commits, commits_item,
+                       how='outer', on='date')\
+                .sort_values(by=['date'])
+    commits['count'] = commits['count_x'].fillna(0) + \
+                       commits['count_y'].fillna(0)
+    commits = commits.drop(columns=['count_x', 'count_y'])
+commits['date'] = pd.to_datetime(commits['date'])
+commits = commits[-30:].set_index('date')
+
+
+plot_scatter(commits, 'count')
