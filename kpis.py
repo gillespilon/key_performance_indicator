@@ -5,6 +5,9 @@ Calculate the number of daily commits for all git repositories.
 Draw a scatter plot of daily commits versus date.
 '''
 
+# time -f '%e' ./kpis.py
+
+
 import subprocess
 from os import path
 from dateutil.parser import parse as parsedate
