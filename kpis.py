@@ -88,6 +88,6 @@ for item in repository_path:
     commits = commits.drop(columns=['count_x', 'count_y'])
 commits['date'] = pd.to_datetime(commits['date'])
 commits = commits[-30:].set_index('date')
-
+print(f'Last 30 days:\n{commits}')
 
 plot_scatter(commits, 'count')
