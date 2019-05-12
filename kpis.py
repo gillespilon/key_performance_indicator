@@ -10,41 +10,93 @@ Draw a scatter plot of daily commits versus date.
 
 
 import subprocess
-from os import path
+from os import chdir
+from typing import Union, List, Dict, Optional
+from pathlib import Path
+from datetime import date, datetime, timedelta, timezone
+from itertools import groupby
+
 from dateutil.parser import parse as parsedate
-
-
 import pandas as pd
 import matplotlib.cm as cm
 import matplotlib.axes as axes
 
+
+chdir(Path(__file__).parent.__str__())
 
 c = cm.Paired.colors
 # c[0] c[1] ... c[11]
 # See "paired" in "qualitative colormaps"
 # https://matplotlib.org/tutorials/colors/colormaps.html
 
-
 title = 'Daily commits'
 ylabel = 'Number of commits'
 xlabel = 'Date'
 
 
-def dataframes(repository_path):
-    '''
-    Create a dataframe with count column for each repository.
-    '''
-    history = subprocess.check_output(
-        ['git', 'log', '--pretty=%aI', '--author=Gilles'],
-        cwd=path.expanduser(f'~/documents/websites/{repository_path}'),
-        universal_newlines=True).splitlines()
-    dates = list(map(parsedate, history))
-    df = pd.DataFrame.from_dict({'Date': dates}, dtype='datetime64[ns]')\
-                     .set_index('Date')
-    df['count'] = 1
-    df = df.groupby(df.index.date).count()
-    df = df.reset_index().rename(columns={'index':'date'})
-    return df
+
+
+def commit_datetimes_since(repository: Path,
+                           since: date,
+                           until_inclusive: date = None) -> List[datetime]:
+    'Return all commit datetimes authored since given date'
+
+    if until_inclusive is None:
+        until_inclusive = date.today()
+    return [
+        parsedate(author_date)
+        for author_date
+        in subprocess.check_output(
+            ['git', 'log',
+             '--pretty=%aI',
+             '--author=Gilles',
+             f'--since={since.isoformat()}',
+             f'--until={until_inclusive.isoformat()}'],
+            cwd=str(repository),
+            universal_newlines=True
+        ).splitlines()
+    ]
+
+
+def repository_paths() -> List[Path]:
+    return [
+        Path.home() / 'documents' / 'websites' / repository_path
+        for repository_path
+        in pd.read_csv('repositories.csv',
+                       index_col=False,
+                       usecols=['Repository path'])
+              ['Repository path']
+    ]
+
+
+def repo_date_counts(repo: Path) -> Dict[date, int]:
+    ago_30 = date.today() - timedelta(days=30)
+    return {
+        date: len(list(commits))
+        for date, commits
+        in groupby(sorted(commit_datetimes_since(repo, ago_30)),
+                   key=lambda dt: dt.date())
+    }
+
+
+def recent_activity() -> pd.DataFrame:
+    last_30_days = [
+        date.today() - timedelta(days=i)
+        for i
+        in range(30)
+    ]
+    paths = repository_paths()
+    known_commits = {
+        repo: repo_date_counts(repo)
+        for repo
+        in paths
+    }
+    return pd.DataFrame(
+        [(repo, date, known_commits[repo].get(date, 0))
+         for repo in paths
+         for date in last_30_days],
+        columns=['repo', 'date', 'commits'],
+    ).set_index(['repo', 'date'])
 
 
 def despine(ax: axes.Axes) -> None:
@@ -55,39 +107,45 @@ def despine(ax: axes.Axes) -> None:
         ax.spines[spine].set_color('none')
 
 
-def plot_scatter(df, column_name):
-    '''
-    Scatter plot of column_name versus index.
-    '''
-    ax = df.plot.line(y=column_name,
-                      legend=False,
-                      style='.',
-                      color=c[0],
-                      rot=45)
-    ax.set_ylabel(column_name)
+def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
+    if activity is None:
+        activity = recent_activity()
+    commits = activity.reset_index().groupby('date').agg('sum')
+    ax = commits.plot.line(y='commits',
+                           legend=False,
+                           style='.',
+                           color=c[0],
+                           rot=45)
+    ax.figure.subplots_adjust(bottom=0.2)
+    ax.set_ylabel('commits')
     ax.set_xlabel('date')
-    ax.set_title(f'{title}', fontweight='bold')
+    ax.set_title(title, fontweight='bold')
     ax.autoscale(tight=False)
-    ax.axhline(int(df[column_name].median()), color=c[1])
+    ax.axhline(commits['commits'].median(), color=c[1])
     despine(ax)
-    ax.figure.savefig(f'commits_daily.svg', format='svg')
+    ax.figure.savefig('commits_daily.svg', format='svg')
 
 
-parameters = pd.read_csv('repositories.csv',index_col=False)
-repository_path = parameters['Repository path']
+if __name__ == '__main__':
+    activity = recent_activity()
+    plot_recent_activity(activity)
+    activity.to_csv('activity.csv')
 
 
-commits = pd.DataFrame(columns=['date', 'count'])
-for item in repository_path:
-    commits_item = dataframes(item)
-    commits = pd.merge(commits, commits_item,
-                       how='outer', on='date')\
-                .sort_values(by=['date'])
-    commits['count'] = commits['count_x'].fillna(0) + \
-                       commits['count_y'].fillna(0)
-    commits = commits.drop(columns=['count_x', 'count_y'])
-commits['date'] = pd.to_datetime(commits['date'])
-commits = commits[-30:].set_index('date')
-print(f'Last 30 days:\n{commits}')
-
-plot_scatter(commits, 'count')
+# TODO: Do this with a cross join between a pd time series from -30, 0 and all
+#       repos, not with a list comprehension.
+#df = pd.DataFrame(
+#    [(repo, date)
+#     for repo in paths
+#     for date in last_30_days],
+#    columns=['repo', 'date'],
+#).set_index(['repo', 'date']).join(
+#    pd.DataFrame(
+#        [(repo, date, commits)
+#         for repo in paths
+#         for date, commits in repo_date_counts(repo).items()],
+#        columns=['repo', 'date', 'commits'],
+#    ).set_index(['repo', 'date']),
+#    how='left',
+#).fillna(0).astype(int)
+#df.to_csv('2.csv')
