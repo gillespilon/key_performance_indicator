@@ -111,12 +111,16 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     if activity is None:
         activity = recent_activity()
     commits = activity.reset_index().groupby('date').agg('sum')
+    # commits['new_index'] = commits.index
+    # commits['new_index'] = commits['new_index'].map(lambda x: str(x)[5:])
+    # commits['new_index'] = commits['new_index'].map(lambda x: str(x)[:-9])
+    # commits = commits.set_index('new_index')
+    # print(commits)
     ax = commits.plot.line(y='commits',
                            legend=False,
-                           style='.',
                            color=c[0],
-                           rot=45)
-    ax.figure.subplots_adjust(bottom=0.2)
+                           rot=90)
+    ax.figure.subplots_adjust(bottom=0.1)
     ax.set_ylabel('commits')
     ax.set_xlabel('date')
     ax.set_title(title, fontweight='bold')
