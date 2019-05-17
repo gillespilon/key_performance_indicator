@@ -126,6 +126,8 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     ax.axhline(commits['commits'].median(), color=c[1])
     despine(ax)
     ax.figure.savefig('commits_daily.svg', format='svg')
+    # ax.figure.savefig('commits_daily.png', format='png')
+    # ax.figure.savefig('commits_daily.pdf', format='pdf')
 
 
 if __name__ == '__main__':
