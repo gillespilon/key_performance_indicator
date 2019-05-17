@@ -20,6 +20,7 @@ from dateutil.parser import parse as parsedate
 import pandas as pd
 import matplotlib.cm as cm
 import matplotlib.axes as axes
+from matplotlib.dates import DateFormatter
 
 
 chdir(Path(__file__).parent.__str__())
@@ -111,16 +112,15 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     if activity is None:
         activity = recent_activity()
     commits = activity.reset_index().groupby('date').agg('sum')
-    # commits['new_index'] = commits.index
-    # commits['new_index'] = commits['new_index'].map(lambda x: str(x)[5:])
-    # commits['new_index'] = commits['new_index'].map(lambda x: str(x)[:-9])
-    # commits = commits.set_index('new_index')
-    # print(commits)
+    print(commits)
+    print(commits.describe())
     ax = commits.plot.line(y='commits',
                            legend=False,
                            color=c[0],
-                           rot=90)
-    ax.figure.subplots_adjust(bottom=0.1)
+                           rot=90,
+                           figsize=(8,6))
+    ax.get_xaxis().set_major_formatter(DateFormatter('%m-%d'))
+    ax.figure.subplots_adjust(bottom=0.2)
     ax.set_ylabel('commits')
     ax.set_xlabel('date')
     ax.set_title(title, fontweight='bold')
