@@ -112,8 +112,6 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     if activity is None:
         activity = recent_activity()
     commits = activity.reset_index().groupby('date').agg('sum')
-    print(commits)
-    print(commits.describe())
     ax = commits.plot.line(y='commits',
                            legend=False,
                            color=c[0],
