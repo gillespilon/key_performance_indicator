@@ -21,6 +21,7 @@ import pandas as pd
 import matplotlib.cm as cm
 import matplotlib.axes as axes
 from matplotlib.dates import DateFormatter
+import datasense as ds
 
 
 chdir(Path(__file__).parent.__str__())
