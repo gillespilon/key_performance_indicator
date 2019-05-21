@@ -22,7 +22,7 @@ import matplotlib.cm as cm
 import matplotlib.axes as axes
 from matplotlib.dates import DateFormatter
 import datasense as ds
-
+from modelicares import util
 
 chdir(Path(__file__).parent.__str__())
 
@@ -126,6 +126,7 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     ax.autoscale(tight=False)
     ax.axhline(y=commits['commits'].median(), color=c[1])
     # ax.annotate('median', xy=(0, commits['commits'].median()), xytext=(0, commits['commits'].median()))
+    #util.add_hlines(ax=ax, positions=[min(y), max(y)], labels=["min", "max"], color='r', ls='--')
     despine(ax)
     ax.figure.savefig('commits_daily.svg', format='svg')
     # ax.figure.savefig('commits_daily.png', format='png')
