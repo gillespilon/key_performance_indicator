@@ -113,7 +113,7 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
                            legend=False,
                            color=c[0],
                            rot=90,
-                           figsize=(8,6))
+                           figsize=(8, 6))
     ax.get_xaxis().set_major_formatter(DateFormatter('%m-%d'))
     # ax.figure.subplots_adjust(bottom=0.2)
     ax.set_ylabel('commits')
