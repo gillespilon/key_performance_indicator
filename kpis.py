@@ -34,8 +34,6 @@ ylabel = 'Number of commits'
 xlabel = 'Date'
 
 
-
-
 def commit_datetimes_since(repository: Path,
                            since: date,
                            until_inclusive: date = None) -> List[datetime]:
@@ -65,7 +63,7 @@ def repository_paths() -> List[Path]:
         in pd.read_csv('repositories.csv',
                        index_col=False,
                        usecols=['Repository path'])
-              ['Repository path']
+           ['Repository path']
     ]
 
 
