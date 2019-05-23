@@ -135,12 +135,12 @@ if __name__ == '__main__':
 
 # TODO: Do this with a cross join between a pd time series from -30, 0 and all
 #       repos, not with a list comprehension.
-#df = pd.DataFrame(
-#    [(repo, date)
+# df = pd.DataFrame(
+#     [(repo, date)
 #     for repo in paths
 #     for date in last_30_days],
 #    columns=['repo', 'date'],
-#).set_index(['repo', 'date']).join(
+# ).set_index(['repo', 'date']).join(
 #    pd.DataFrame(
 #        [(repo, date, commits)
 #         for repo in paths
@@ -148,5 +148,5 @@ if __name__ == '__main__':
 #        columns=['repo', 'date', 'commits'],
 #    ).set_index(['repo', 'date']),
 #    how='left',
-#).fillna(0).astype(int)
-#df.to_csv('2.csv')
+# ).fillna(0).astype(int)
+# df.to_csv('2.csv')
