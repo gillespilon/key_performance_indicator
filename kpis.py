@@ -11,9 +11,9 @@ Draw a scatter plot of daily commits versus date.
 
 import subprocess
 from os import chdir
-from typing import Union, List, Dict, Optional
+from typing import List, Dict, Optional
 from pathlib import Path
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, timedelta
 from itertools import groupby
 
 from dateutil.parser import parse as parsedate
@@ -21,8 +21,6 @@ import pandas as pd
 import matplotlib.cm as cm
 import matplotlib.axes as axes
 from matplotlib.dates import DateFormatter
-import datasense as ds
-from modelicares import util
 
 chdir(Path(__file__).parent.__str__())
 
