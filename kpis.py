@@ -21,6 +21,7 @@ import pandas as pd
 import matplotlib.cm as cm
 import matplotlib.axes as axes
 from matplotlib.dates import DateFormatter
+from matplotlib.ticker import NullFormatter
 
 chdir(Path(__file__).parent.__str__())
 
@@ -114,10 +115,11 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
                            color=c[0],
                            rot=90,
                            figsize=(8, 6))
-    ax.get_xaxis().set_major_formatter(DateFormatter('%m-%d'))
+    # ax.get_xaxis().set_major_formatter(DateFormatter('%m-%d'))
     # ax.figure.subplots_adjust(bottom=0.2)
     ax.set_ylabel('commits')
     ax.set_xlabel('date')
+    ax.xaxis.set_major_formatter(NullFormatter())
     ax.set_title(title, fontweight='bold')
     ax.autoscale(tight=False)
     ax.axhline(y=commits['commits'].median(), color=c[1])
@@ -125,7 +127,6 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     ax.figure.savefig('commits_daily.svg', format='svg')
     # ax.figure.savefig('commits_daily.png', format='png')
     # ax.figure.savefig('commits_daily.pdf', format='pdf')
-
 
 if __name__ == '__main__':
     activity = recent_activity()
