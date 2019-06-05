@@ -20,8 +20,9 @@ from dateutil.parser import parse as parsedate
 import pandas as pd
 import matplotlib.cm as cm
 import matplotlib.axes as axes
-from matplotlib.dates import DateFormatter
+from matplotlib.dates import DateFormatter, DayLocator
 from matplotlib.ticker import NullFormatter
+from matplotlib.ticker import NullLocator
 
 chdir(Path(__file__).parent.__str__())
 
@@ -114,12 +115,15 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
                            legend=False,
                            color=c[0],
                            rot=90,
-                           figsize=(8, 6))
-    # ax.get_xaxis().set_major_formatter(DateFormatter('%m-%d'))
-    # ax.figure.subplots_adjust(bottom=0.2)
+                           figsize=(8, 6),
+                           x_compat=True)
+    print(commits)
     ax.set_ylabel('commits')
     ax.set_xlabel('date')
-    ax.xaxis.set_major_formatter(NullFormatter())
+    ax.xaxis.set_minor_locator(NullLocator())
+    ax.xaxis.set_major_locator(DayLocator())
+    ax.xaxis.set_minor_formatter(NullFormatter())
+    ax.xaxis.set_major_formatter(DateFormatter('%d'))
     ax.set_title(title, fontweight='bold')
     ax.autoscale(tight=False)
     ax.axhline(y=commits['commits'].median(), color=c[1])
