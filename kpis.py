@@ -18,6 +18,7 @@ from itertools import groupby
 
 from dateutil.parser import parse as parsedate
 import pandas as pd
+import numpy as np
 import matplotlib.cm as cm
 import matplotlib.axes as axes
 from matplotlib.dates import DateFormatter, DayLocator
@@ -111,12 +112,13 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     if activity is None:
         activity = recent_activity()
     commits = activity.reset_index().groupby('date').agg('sum')
-    ax = commits.plot.line(y='commits',
-                           legend=False,
-                           color=c[0],
-                           rot=90,
-                           figsize=(8, 6),
-                           x_compat=True)
+    ax = commits.plot(y='commits',
+                      legend=False,
+                      style='.-',
+                      color=c[0],
+                      rot=90,
+                      figsize=(8, 6),
+                      x_compat=True)
     print(commits)
     ax.set_ylabel(ylabel)
     ax.set_xlabel(xlabel)
@@ -127,6 +129,7 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     ax.set_title(title, fontweight='bold')
     ax.autoscale(tight=False)
     ax.axhline(y=commits['commits'].median(), color=c[1])
+    ax.axhline(y=0, color=c[5])
     despine(ax)
     ax.figure.savefig('commits_daily.svg', format='svg')
     # ax.figure.savefig('commits_daily.png', format='png')
