@@ -118,8 +118,8 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
                            figsize=(8, 6),
                            x_compat=True)
     print(commits)
-    ax.set_ylabel('commits')
-    ax.set_xlabel('date')
+    ax.set_ylabel(ylabel)
+    ax.set_xlabel(xlabel)
     ax.xaxis.set_minor_locator(NullLocator())
     ax.xaxis.set_major_locator(DayLocator())
     ax.xaxis.set_minor_formatter(NullFormatter())
