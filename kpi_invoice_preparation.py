@@ -1,7 +1,6 @@
 #! /usr/bin/env python3
 
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
 
 invoicing = pd.read_csv('invoice_preparation_time.csv', parse_dates=True, index_col='Date')
