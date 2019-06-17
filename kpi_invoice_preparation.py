@@ -57,8 +57,9 @@ def plot_cycle_time(df, columns):
     ax.figure.savefig('invoice_cycle_time.pdf', format='pdf')
 
 
-invoicing = pd.read_csv('invoice_preparation_time.csv',
-                        parse_dates=True,
-                        index_col='Date')
-calculate_cycle_time(invoicing, columns)
-plot_cycle_time(invoicing, columns)
+if __name__ == '__main__':
+    invoicing = pd.read_csv('invoice_preparation_time.csv',
+                            parse_dates=True,
+                            index_col='Date')
+    calculate_cycle_time(invoicing, columns)
+    plot_cycle_time(invoicing, columns)
