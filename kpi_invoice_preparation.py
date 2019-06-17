@@ -30,4 +30,3 @@ ax.set_ylabel(ylabel)
 ax.set_xlabel(xlabel)
 ax.figure.savefig('invoice_cycle_time.svg', format='svg')
 ax.figure.savefig('invoice_cycle_time.pdf', format='pdf')
-
