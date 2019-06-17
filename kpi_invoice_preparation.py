@@ -5,7 +5,6 @@
 Calculate invoice preparation time
 
 ./kpi_invoice_preparation.py
-python kpi_invoice_preparatio.py
 time -f '%e' ./kpi_invoice_preparation.py
 '''
 
