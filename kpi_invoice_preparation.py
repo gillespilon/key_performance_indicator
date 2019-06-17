@@ -13,6 +13,14 @@ import pandas as pd
 import numpy as np
 import matplotlib.axes as axes
 
+
+title = 'Invoicing cycle time'
+subtitle = 'Start of invoice to invoice sent'
+ylabel = 'Time (min)'
+xlabel = 'Date'
+columns = ['Start invoice', 'Send invoice', 'Total time']
+
+
 def despine(ax: axes.Axes) -> None:
     '''
     Remove the top and right spines of a graph.
@@ -21,21 +29,29 @@ def despine(ax: axes.Axes) -> None:
         ax.spines[spine].set_color('none')
 
 
+def calculate_cycle_time(df, columns):
+    '''
+    Calculate cycle time with two columns, store in third column
+    columns[0] == start time
+    columns[1] == end time
+    columns[2] == total time
+    '''
+    df[columns[0]] = pd.to_datetime(df[columns[0]],
+                                         format='%H:%M')
+    df[columns[1]] = pd.to_datetime(df[columns[1]],
+                                        format='%H:%M')
+    df[columns[2]] = (df[columns[1]] - df[columns[0]])
+    df[columns[2]] = df[columns[2]] / np.timedelta64(1, 'm')
+    df = df.drop([columns[2]], axis=1)
+    return df
+
+
 invoicing = pd.read_csv('invoice_preparation_time.csv',
                         parse_dates=True,
                         index_col='Date')
-invoicing['Start invoice'] = pd.to_datetime(invoicing['Start invoice'],
-                                            format='%H:%M')
-invoicing['Send invoice'] = pd.to_datetime(invoicing['Send invoice'],
-                                           format='%H:%M')
-invoicing['total_time'] = (invoicing['Send invoice'] -
-                           invoicing['Start invoice'])
-invoicing['Total time'] = invoicing['total_time'] / np.timedelta64(1, 'm')
-invoicing = invoicing.drop(['total_time'], axis=1)
-title = 'Invoicing cycle time'
-subtitle = 'Start of invoice to invoice sent'
-ylabel = 'Time (min)'
-xlabel = 'Date'
+calculate_cycle_time(invoicing, columns)
+
+
 ax = invoicing['Total time'].plot.line(legend=False, marker='o', markersize=3)
 ax.axis('auto')
 despine(ax)
