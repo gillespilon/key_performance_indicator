@@ -1,12 +1,21 @@
 #! /usr/bin/env python3
 
+
+'''
+Calculate invoice preparation time
+
+./kpi_invoice_preparation.py
+python kpi_invoice_preparatio.py
+time -f '%e' ./kpi_invoice_preparation.py
+'''
+
+
 import pandas as pd
 import numpy as np
 
 invoicing = pd.read_csv('invoice_preparation_time.csv',
                         parse_dates=True,
                         index_col='Date')
-
 invoicing['Start invoice'] = pd.to_datetime(invoicing['Start invoice'],
                                             format='%H:%M')
 invoicing['Send invoice'] = pd.to_datetime(invoicing['Send invoice'],
@@ -15,12 +24,10 @@ invoicing['total_time'] = (invoicing['Send invoice'] -
                            invoicing['Start invoice'])
 invoicing['Total time'] = invoicing['total_time'] / np.timedelta64(1, 'm')
 invoicing = invoicing.drop(['total_time'], axis=1)
-
 title = 'Invoicing cycle time'
 subtitle = 'Start of invoice to invoice sent'
 ylabel = 'Time (min)'
 xlabel = 'Date'
-
 ax = invoicing['Total time'].plot.line(legend=False, marker='o', markersize=3)
 ax.axis('auto')
 for spine in 'right', 'top':
