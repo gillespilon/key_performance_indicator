@@ -46,17 +46,19 @@ def calculate_cycle_time(df, columns):
     return df
 
 
+def plot_cycle_time(df, columns):
+    ax = df[columns[2]].plot.line(legend=False, marker='o', markersize=3)
+    ax.axis('auto')
+    despine(ax)
+    ax.set_title(title + '\n' + subtitle)
+    ax.set_ylabel(ylabel)
+    ax.set_xlabel(xlabel)
+    ax.figure.savefig('invoice_cycle_time.svg', format='svg')
+    ax.figure.savefig('invoice_cycle_time.pdf', format='pdf')
+
+
 invoicing = pd.read_csv('invoice_preparation_time.csv',
                         parse_dates=True,
                         index_col='Date')
 calculate_cycle_time(invoicing, columns)
-
-
-ax = invoicing['Total time'].plot.line(legend=False, marker='o', markersize=3)
-ax.axis('auto')
-despine(ax)
-ax.set_title(title + '\n' + subtitle)
-ax.set_ylabel(ylabel)
-ax.set_xlabel(xlabel)
-ax.figure.savefig('invoice_cycle_time.svg', format='svg')
-ax.figure.savefig('invoice_cycle_time.pdf', format='pdf')
+plot_cycle_time(invoicing, columns)
