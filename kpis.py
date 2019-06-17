@@ -121,7 +121,6 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
                       x_compat=True)
     print(commits)
     commits['low'] = commits['commits'].where(commits['commits'].between(0, 0))
-    print(commits)
     ax.plot(commits['low'], marker='x', color=c[5])
     ax.set_ylabel(ylabel)
     ax.set_xlabel(xlabel)
@@ -131,12 +130,9 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     ax.xaxis.set_major_formatter(DateFormatter('%d'))
     ax.set_title(title, fontweight='bold')
     ax.autoscale(tight=False)
-    # ax.axhline(y=commits['commits'].median(), color=c[1])
-    # ax.axhline(y=0, color=c[5])
+    ax.axhline(y=commits['commits'].median(), color=c[1])
     despine(ax)
     ax.figure.savefig('commits_daily.svg', format='svg')
-    # ax.figure.savefig('commits_daily.png', format='png')
-    # ax.figure.savefig('commits_daily.pdf', format='pdf')
 
 if __name__ == '__main__':
     activity = recent_activity()
