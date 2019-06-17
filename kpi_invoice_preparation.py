@@ -3,11 +3,16 @@
 import pandas as pd
 import numpy as np
 
-invoicing = pd.read_csv('invoice_preparation_time.csv', parse_dates=True, index_col='Date')
+invoicing = pd.read_csv('invoice_preparation_time.csv',
+                        parse_dates=True,
+                        index_col='Date')
 
-invoicing['Start invoice'] = pd.to_datetime(invoicing['Start invoice'], format='%H:%M')
-invoicing['Send invoice'] = pd.to_datetime(invoicing['Send invoice'], format='%H:%M')
-invoicing['total_time'] = (invoicing['Send invoice'] - invoicing['Start invoice'])
+invoicing['Start invoice'] = pd.to_datetime(invoicing['Start invoice'],
+                                            format='%H:%M')
+invoicing['Send invoice'] = pd.to_datetime(invoicing['Send invoice'],
+                                           format='%H:%M')
+invoicing['total_time'] = (invoicing['Send invoice'] -
+                           invoicing['Start invoice'])
 invoicing['Total time'] = invoicing['total_time'] / np.timedelta64(1, 'm')
 invoicing = invoicing.drop(['total_time'], axis=1)
 
