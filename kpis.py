@@ -120,6 +120,7 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
                       figsize=(8, 6),
                       x_compat=True)
     print(commits)
+    print(f"Median commits: {commits['commits'].median()}")
     commits['low'] = commits['commits'].where(commits['commits'].between(0, 0))
     ax.plot(commits['low'], marker='x', color=c[5])
     ax.set_ylabel(ylabel)
