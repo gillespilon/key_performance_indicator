@@ -120,9 +120,9 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
                       figsize=(8, 6),
                       x_compat=True)
     print(f'Commits by date\n{commits}\n')
-    print(f"Median commits: {commits['commits'].median()}\n")
+    print(f"Median commits: {commits['commits'].median().astype(int)}\n")
     print(f"Commits by ascending value\n{commits.sort_values(by='commits')}\n")
-    print(f"Median commits: {commits['commits'].median()}")
+    print(f"Median commits: {commits['commits'].median().astype(int)}")
     commits['low'] = commits['commits'].where(commits['commits'].between(0, 0))
     ax.plot(commits['low'], marker='x', color=c[5])
     ax.set_ylabel(ylabel)
