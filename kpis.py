@@ -71,20 +71,20 @@ def repository_paths() -> List[Path]:
 
 
 def repo_date_counts(repo: Path) -> Dict[date, int]:
-    ago_30 = date.today() - timedelta(days=30)
+    ago_31 = date.today() - timedelta(days=31)
     return {
         date: len(list(commits))
         for date, commits
-        in groupby(sorted(commit_datetimes_since(repo, ago_30)),
+        in groupby(sorted(commit_datetimes_since(repo, ago_31)),
                    key=lambda dt: dt.date())
     }
 
 
 def recent_activity() -> pd.DataFrame:
-    last_30_days = [
+    last_31_days = [
         date.today() - timedelta(days=i)
         for i
-        in range(30)
+        in range(31)
     ]
     paths = repository_paths()
     known_commits = {
@@ -95,7 +95,7 @@ def recent_activity() -> pd.DataFrame:
     return pd.DataFrame(
         [(repo, date, known_commits[repo].get(date, 0))
          for repo in paths
-         for date in last_30_days],
+         for date in last_31_days],
         columns=['repo', 'date', 'commits'],
     ).set_index(['repo', 'date'])
 
@@ -143,12 +143,12 @@ if __name__ == '__main__':
     activity.to_csv('activity.csv')
 
 
-# TODO: Do this with a cross join between a pd time series from -30, 0 and all
+# TODO: Do this with a cross join between a pd time series from -31, 0 and all
 #       repos, not with a list comprehension.
 # df = pd.DataFrame(
 #     [(repo, date)
 #     for repo in paths
-#     for date in last_30_days],
+#     for date in last_31_days],
 #    columns=['repo', 'date'],
 # ).set_index(['repo', 'date']).join(
 #    pd.DataFrame(
