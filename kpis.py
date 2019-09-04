@@ -24,6 +24,7 @@ import matplotlib.axes as axes
 from matplotlib.dates import DateFormatter, DayLocator
 from matplotlib.ticker import NullFormatter
 from matplotlib.ticker import NullLocator
+from matplotlib.ticker import MaxNLocator
 
 chdir(Path(__file__).parent.__str__())
 
@@ -118,6 +119,7 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
                       rot=90,
                       figsize=(8, 6),
                       x_compat=True)
+    ax.yaxis.set_major_locator(MaxNLocator(integer=True))
     print(f'Commits by date\n{commits}\n')
     print(f"Median commits: {commits['commits'].median().astype(int)}\n")
     print(f"Commits by ascending value\n{commits.sort_values(by='commits')}\n")
