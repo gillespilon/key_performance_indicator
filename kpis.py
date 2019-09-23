@@ -137,6 +137,7 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     despine(ax)
     ax.figure.savefig('commits_daily.svg', format='svg')
 
+
 if __name__ == '__main__':
     activity = recent_activity()
     plot_recent_activity(activity)
