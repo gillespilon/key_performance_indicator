@@ -26,7 +26,12 @@ from matplotlib.ticker import NullFormatter
 from matplotlib.ticker import NullLocator
 from matplotlib.ticker import MaxNLocator
 
+
 chdir(Path(__file__).parent.__str__())
+
+
+c = cm.Paired.colors  # c[0] c[1] ... c[11]
+# https://matplotlib.org/tutorials/colors/colormaps.html
 
 
 def commit_datetimes_since(repository: Path,
@@ -101,11 +106,6 @@ def despine(ax: axes.Axes) -> None:
 
 
 def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
-    c = cm.Paired.colors
-    # c[0] c[1] ... c[11]
-    # See "paired" in "qualitative colormaps"
-    # https://matplotlib.org/tutorials/colors/colormaps.html
-
     title = 'Daily commits'
     ylabel = 'Number of commits'
     xlabel = 'Date'
