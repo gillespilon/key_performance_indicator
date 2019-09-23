@@ -18,7 +18,6 @@ from itertools import groupby
 
 from dateutil.parser import parse as parsedate
 import pandas as pd
-import numpy as np
 import matplotlib.cm as cm
 import matplotlib.axes as axes
 from matplotlib.dates import DateFormatter, DayLocator
