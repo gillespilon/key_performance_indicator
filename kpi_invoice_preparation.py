@@ -26,7 +26,7 @@ def despine(ax: axes.Axes) -> None:
     Remove the top and right spines of a graph.
     '''
     for spine in 'right', 'top':
-        ax.spines[spine].set_color('none')
+        ax.spines[spine].set_visible(False)
 
 
 def calculate_cycle_time(df, columns):
