@@ -123,7 +123,7 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
                       style='.-',
                       color=c[0],
                       rot=90,
-                      figsize=(8, 6),
+                      figsize=(12, 6),
                       x_compat=True)
     ax.yaxis.set_major_locator(MaxNLocator(integer=True))
     print(f'Commits by date\n{commits}\n')
