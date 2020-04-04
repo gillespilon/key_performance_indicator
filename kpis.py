@@ -63,9 +63,10 @@ def repository_paths() -> List[Path]:
     return [
         Path.home() / 'documents' / 'websites' / repository_path
         for repository_path
-        in pd.read_csv('repositories.csv',
-                       index_col=False,
-                       usecols=['Repository path'])
+        in pd.read_excel('repositories.ods',
+                         index_col=False,
+                         engine='odf',
+                         usecols=['Repository path'])
            ['Repository path']
     ]
 
