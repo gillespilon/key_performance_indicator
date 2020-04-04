@@ -37,6 +37,12 @@ c = cm.Paired.colors  # c[0] c[1] ... c[11]
 # https://matplotlib.org/tutorials/colors/colormaps.html
 
 
+def main():
+    activity = recent_activity()
+    plot_recent_activity(activity)
+    activity.to_csv('activity.csv')
+
+
 def commit_datetimes_since(repository: Path,
                            since: date,
                            until_inclusive: date = None) -> List[datetime]:
@@ -146,9 +152,7 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
 
 
 if __name__ == '__main__':
-    activity = recent_activity()
-    plot_recent_activity(activity)
-    activity.to_csv('activity.csv')
+    main()
 
 
 # TODO: Do this with a cross join between a pd time series from -31, 0 and all
