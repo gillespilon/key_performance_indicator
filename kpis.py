@@ -46,7 +46,9 @@ def main():
 def commit_datetimes_since(repository: Path,
                            since: date,
                            until_inclusive: date = None) -> List[datetime]:
-    'Return all commit datetimes authored since given date'
+    '''
+    Return all commit datetimes authored since given date
+    '''
 
     if until_inclusive is None:
         until_inclusive = date.today()
@@ -66,6 +68,9 @@ def commit_datetimes_since(repository: Path,
 
 
 def repository_paths() -> List[Path]:
+    '''
+    List of repository paths
+    '''
     return [
         Path.home() / 'documents' / 'websites' / repository_path
         for repository_path
@@ -78,6 +83,9 @@ def repository_paths() -> List[Path]:
 
 
 def repo_date_counts(repo: Path) -> Dict[date, int]:
+    '''
+    Dictionary of commits per day
+    '''
     ago_31 = date.today() - timedelta(days=31)
     return {
         date: len(list(commits))
@@ -88,6 +96,9 @@ def repo_date_counts(repo: Path) -> Dict[date, int]:
 
 
 def recent_activity() -> pd.DataFrame:
+    '''
+    Dataframe of known commits
+    '''
     last_31_days = [
         date.today() - timedelta(days=i)
         for i
@@ -118,6 +129,9 @@ def despine(ax: axes.Axes) -> None:
 
 
 def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
+    '''
+    Line plot of number commits versus date
+    '''
     title = 'Daily commits'
     ylabel = 'Number of commits'
     xlabel = 'Date'
