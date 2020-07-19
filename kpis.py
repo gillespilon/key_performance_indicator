@@ -5,37 +5,30 @@ Calculate the number of daily commits for all git repositories.
 Draw a line plot of daily commits versus date.
 Must manually update the repository path list repositories.ods.
 
-    time -f '%e' ./kpis.py > kpis.txt
-    ./kpis.py > kpis.txt
-    ./kpis.py | tee kpis.txt
+time -f '%e' ./kpis.py > kpis.txt
+time -f '%e' ./kpis.py
+./kpis.py > kpis.txt
+./kpis.py
 '''
 
 # time -f '%e' ./kpis.py > kpis.txt
 # ./kpis.py > kpis.txt
 
 
-import subprocess
-from os import chdir
-from typing import List, Dict, Optional
-from pathlib import Path
 from datetime import date, datetime, timedelta
+from typing import List, Dict, Optional
 from itertools import groupby
+from pathlib import Path
+import subprocess
 
 from dateutil.parser import parse as parsedate
-import pandas as pd
-import matplotlib.cm as cm
+import matplotlib.pyplot as plt
 import matplotlib.axes as axes
-from matplotlib.dates import DateFormatter, DayLocator
-from matplotlib.ticker import NullFormatter
-from matplotlib.ticker import NullLocator
-from matplotlib.ticker import MaxNLocator
+import matplotlib.cm as cm
+import pandas as pd
 
 
-# chdir(Path(__file__).parent.__str__())
-
-
-c = cm.Paired.colors  # c[0] c[1] ... c[11]
-# https://matplotlib.org/tutorials/colors/colormaps.html
+c = cm.Paired.colors
 
 
 def main():
@@ -139,14 +132,10 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     if activity is None:
         activity = recent_activity()
     commits = activity.reset_index().groupby('date').agg('sum')
-    ax = commits.plot(y='commits',
-                      legend=False,
-                      style='.-',
-                      color=c[0],
-                      rot=90,
-                      figsize=(12, 6),
-                      x_compat=True)
-    ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+    fig = plt.figure(figsize=(12, 6))
+    ax = fig.add_subplot(111)
+    fig.autofmt_xdate()
+    ax.plot(commits['commits'], color=c[0])
     print(f'Commits by date\n{commits}\n')
     print(f"Median commits: {commits['commits'].median().astype(int)}\n")
     print(f"Commits by ascending value\n{commits.sort_values(by='commits')}\n")
@@ -155,10 +144,6 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     ax.plot(commits['low'], marker='x', color=c[5])
     ax.set_ylabel(ylabel)
     ax.set_xlabel(xlabel)
-    ax.xaxis.set_minor_locator(NullLocator())
-    ax.xaxis.set_major_locator(DayLocator())
-    ax.xaxis.set_minor_formatter(NullFormatter())
-    ax.xaxis.set_major_formatter(DateFormatter('%d'))
     ax.set_title(title, fontweight='bold')
     ax.autoscale(tight=False)
     ax.axhline(y=commits['commits'].median(), color=c[1])
