@@ -2,7 +2,8 @@
 
 '''
 Calculate the number of daily commits for all git repositories.
-Draw a scatter plot of daily commits versus date.
+Draw a line plot of daily commits versus date.
+Must manually update the repository path list repositories.ods.
 
     time -f '%e' ./kpis.py > kpis.txt
     ./kpis.py > kpis.txt
@@ -30,7 +31,7 @@ from matplotlib.ticker import NullLocator
 from matplotlib.ticker import MaxNLocator
 
 
-chdir(Path(__file__).parent.__str__())
+# chdir(Path(__file__).parent.__str__())
 
 
 c = cm.Paired.colors  # c[0] c[1] ... c[11]
