@@ -15,6 +15,7 @@ from datetime import date, datetime, timedelta
 from typing import List, Dict, Optional
 from itertools import groupby
 from pathlib import Path
+from os import chdir
 import subprocess
 
 from dateutil.parser import parse as parsedate
@@ -22,6 +23,9 @@ import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 import matplotlib.cm as cm
 import pandas as pd
+
+
+chdir(Path(__file__).parent.__str__())
 
 
 c = cm.Paired.colors
