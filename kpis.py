@@ -11,10 +11,6 @@ time -f '%e' ./kpis.py
 ./kpis.py
 '''
 
-# time -f '%e' ./kpis.py > kpis.txt
-# ./kpis.py > kpis.txt
-
-
 from datetime import date, datetime, timedelta
 from typing import List, Dict, Optional
 from itertools import groupby
