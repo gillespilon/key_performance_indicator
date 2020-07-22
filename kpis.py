@@ -19,6 +19,7 @@ from os import chdir
 import subprocess
 
 from dateutil.parser import parse as parsedate
+from matplotlib.dates import DateFormatter
 import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 import matplotlib.cm as cm
@@ -134,6 +135,7 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     commits = activity.reset_index().groupby('date').agg('sum')
     fig = plt.figure(figsize=(12, 6))
     ax = fig.add_subplot(111)
+    ax.xaxis.set_major_formatter(DateFormatter('%m-%d'))
     fig.autofmt_xdate()
     ax.plot(commits['commits'], color=c[0])
     print(f'Commits by date\n{commits}\n')
