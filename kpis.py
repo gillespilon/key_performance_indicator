@@ -19,7 +19,7 @@ from os import chdir
 import subprocess
 
 from dateutil.parser import parse as parsedate
-from matplotlib.dates import DateFormatter
+import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 import matplotlib.cm as cm
@@ -134,9 +134,11 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
         activity = recent_activity()
     commits = activity.reset_index().groupby('date').agg('sum')
     fig = plt.figure(figsize=(12, 6))
+    loc = mdates.AutoDateLocator()
+    fmt = mdates.AutoDateFormatter(loc)
     ax = fig.add_subplot(111)
-    ax.xaxis.set_major_formatter(DateFormatter('%m-%d'))
-    fig.autofmt_xdate()
+    ax.xaxis.set_major_locator(loc)
+    ax.xaxis.set_major_formatter(fmt)
     ax.plot(commits['commits'], color=c[0])
     print(f'Commits by date\n{commits}\n')
     print(f"Median commits: {commits['commits'].median().astype(int)}\n")
@@ -150,6 +152,7 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     ax.autoscale(tight=False)
     ax.axhline(y=commits['commits'].median(), color=c[1])
     despine(ax)
+    fig.autofmt_xdate()
     ax.figure.savefig('commits_daily.svg', format='svg')
 
 
