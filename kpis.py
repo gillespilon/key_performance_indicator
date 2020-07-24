@@ -17,6 +17,8 @@ from itertools import groupby
 from pathlib import Path
 from os import chdir
 import subprocess
+import webbrowser
+import sys
 
 from dateutil.parser import parse as parsedate
 import matplotlib.axes as axes
@@ -29,9 +31,17 @@ chdir(Path(__file__).parent.__str__())
 
 
 def main():
+    original_stdout = sys.stdout
+    output_url = 'commits.html'
+    sys.stdout = open(output_url, 'w')
+    ds.html_header('Commits', 'commits')
     activity = recent_activity()
     plot_recent_activity(activity)
     activity.to_csv('activity.csv')
+    ds.html_footer()
+    sys.stdout.close()
+    sys.stdout = original_stdout
+    webbrowser.open_new_tab(output_url)
 
 
 def commit_datetimes_since(repository: Path,
