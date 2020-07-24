@@ -19,17 +19,13 @@ from os import chdir
 import subprocess
 
 from dateutil.parser import parse as parsedate
-import matplotlib.dates as mdates
-import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 import matplotlib.cm as cm
+import datasense as ds
 import pandas as pd
 
 
 chdir(Path(__file__).parent.__str__())
-
-
-c = cm.Paired.colors
 
 
 def main():
@@ -127,33 +123,31 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     '''
     Line plot of number commits versus date
     '''
+    figure_width_height = (12, 6)
+    c = cm.Paired.colors
     title = 'Daily commits'
     ylabel = 'Number of commits'
     xlabel = 'Date'
     if activity is None:
         activity = recent_activity()
     commits = activity.reset_index().groupby('date').agg('sum')
-    fig = plt.figure(figsize=(12, 6))
-    loc = mdates.AutoDateLocator()
-    fmt = mdates.AutoDateFormatter(loc)
-    ax = fig.add_subplot(111)
-    ax.xaxis.set_major_locator(loc)
-    ax.xaxis.set_major_formatter(fmt)
-    ax.plot(commits['commits'], color=c[0])
-    print(f'Commits by date\n{commits}\n')
-    print(f"Median commits: {commits['commits'].median().astype(int)}\n")
-    print(f"Commits by ascending value\n{commits.sort_values(by='commits')}\n")
-    print(f"Median commits: {commits['commits'].median().astype(int)}")
     commits['low'] = commits['commits'].where(commits['commits'].between(0, 0))
+    fig, ax = ds.plot_line_x_y(
+        commits.index,
+        commits['commits'],
+        figure_width_height
+    )
     ax.plot(commits['low'], marker='x', color=c[5])
     ax.set_ylabel(ylabel)
     ax.set_xlabel(xlabel)
     ax.set_title(title, fontweight='bold')
-    ax.autoscale(tight=False)
-    ax.axhline(y=commits['commits'].median(), color=c[1])
+    ax.axhline(y=commits['commits'].median(), color=c[0])
     despine(ax)
-    fig.autofmt_xdate()
     ax.figure.savefig('commits_daily.svg', format='svg')
+    print(f'Commits by date\n{commits}\n')
+    print(f"Median commits: {commits['commits'].median().astype(int)}\n")
+    print(f"Commits by ascending value\n{commits.sort_values(by='commits')}\n")
+    print(f"Median commits: {commits['commits'].median().astype(int)}")
 
 
 if __name__ == '__main__':
