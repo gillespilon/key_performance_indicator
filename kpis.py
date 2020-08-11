@@ -143,9 +143,9 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     commits = activity.reset_index().groupby('date').agg('sum')
     commits['low'] = commits['commits'].where(commits['commits'].between(0, 0))
     fig, ax = ds.plot_line_x_y(
-        commits.index,
-        commits['commits'],
-        figure_width_height
+        X=commits.index,
+        y=commits['commits'],
+        figuresize=figure_width_height
     )
     ax.plot(commits['low'], marker='x', color=c[5])
     ax.set_ylabel(ylabel)
