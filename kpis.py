@@ -151,13 +151,14 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     ax.set_ylabel(ylabel)
     ax.set_xlabel(xlabel)
     ax.set_title(title, fontweight='bold')
-    ax.axhline(y=commits['commits'].median(), color=c[0])
+    median_value = commits['commits'].median()
+    ax.axhline(y=median_value, color=c[0])
     despine(ax)
     ax.figure.savefig('commits_daily.svg', format='svg')
     print(f'Commits by date\n{commits}\n')
-    print(f"Median commits: {commits['commits'].median().astype(int)}\n")
+    print(f"Median commits: {median_value.astype(int)}\n")
     print(f"Commits by ascending value\n{commits.sort_values(by='commits')}\n")
-    print(f"Median commits: {commits['commits'].median().astype(int)}")
+    print(f"Median commits: {median_value.astype(int)}")
 
 
 if __name__ == '__main__':
