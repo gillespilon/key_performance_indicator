@@ -2,6 +2,7 @@
 
 '''
 Calculate the number of daily commits for all git repositories.
+
 Draw a line plot of daily commits versus date.
 Must manually update the repository path list repositories.ods.
 
@@ -48,7 +49,15 @@ def commit_datetimes_since(repository: Path,
                            since: date,
                            until_inclusive: date = None) -> List[datetime]:
     '''
-    Return all commit datetimes authored since given date
+    Return all commit datetimes authored since given date.
+
+    Parameters:
+        repository      : Path
+        since           : date
+        until_inclusive : List[datetime]
+
+    Returns:
+        author_date     : List[datetime]
     '''
 
     if until_inclusive is None:
@@ -70,7 +79,10 @@ def commit_datetimes_since(repository: Path,
 
 def repository_paths() -> List[Path]:
     '''
-    List of repository paths
+    List of repository paths.
+
+    Returns:
+        List[Path]
     '''
     return [
         Path.home() / 'documents' / 'websites' / repository_path
@@ -85,7 +97,13 @@ def repository_paths() -> List[Path]:
 
 def repo_date_counts(repo: Path) -> Dict[date, int]:
     '''
-    Dictionary of commits per day
+    Dictionary of commits per day.
+
+    Parameters:
+        repo    : Path
+
+    Returns:
+        date    : Dict[date, int]
     '''
     ago_31 = date.today() - timedelta(days=31)
     return {
@@ -99,6 +117,9 @@ def repo_date_counts(repo: Path) -> Dict[date, int]:
 def recent_activity() -> pd.DataFrame:
     '''
     Dataframe of known commits
+
+    Returns:
+        pd.DataFrame
     '''
     last_31_days = [
         date.today() - timedelta(days=i)
@@ -124,6 +145,9 @@ def despine(ax: axes.Axes) -> None:
     Remove the top and right spines of a graph.
 
     There is only one x axis, on the bottom, and one y axis, on the left.
+
+    Parameters:
+        ax  : axes.Axes
     '''
     for spine in 'right', 'top':
         ax.spines[spine].set_visible(False)
@@ -131,7 +155,10 @@ def despine(ax: axes.Axes) -> None:
 
 def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     '''
-    Line plot of number commits versus date
+    Line plot of number commits versus date.
+
+    Parameters:
+        activity    : pd.DataFrame
     '''
     figure_width_height = (12, 6)
     c = cm.Paired.colors
