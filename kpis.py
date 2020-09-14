@@ -1,5 +1,4 @@
 #! /usr/bin/env python3
-
 '''
 Calculate the number of daily commits for all git repositories.
 
@@ -11,7 +10,6 @@ time -f '%e' ./kpis.py
 ./kpis.py > kpis.txt
 ./kpis.py
 '''
-
 from datetime import date, datetime, timedelta
 from typing import List, Dict, Optional
 from itertools import groupby
@@ -26,7 +24,6 @@ import matplotlib.axes as axes
 import matplotlib.cm as cm
 import datasense as ds
 import pandas as pd
-
 
 chdir(Path(__file__).parent.__str__())
 
