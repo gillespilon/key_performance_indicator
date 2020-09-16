@@ -22,7 +22,6 @@ import sys
 
 from dateutil.parser import parse as parsedate
 import matplotlib.axes as axes
-import matplotlib.cm as cm
 import datasense as ds
 import pandas as pd
 
@@ -159,7 +158,6 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
         activity    : pd.DataFrame
     '''
     figure_width_height = (12, 6)
-    c = cm.Paired.colors
     title = 'Daily commits'
     y_label = 'Number of commits'
     x_label = 'Date'
@@ -172,7 +170,11 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
         y=commits['commits'],
         figuresize=figure_width_height
     )
-    ax.plot(commits['low'], marker='x', color=c[5])
+    ax.plot(
+        commits['low'],
+        marker='x',
+        color='#cc3311'
+    )
     ax.set_ylabel(
         ylabel=y_label,
         fontweight='bold'
@@ -183,7 +185,11 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     )
     ax.set_title(title, fontweight='bold')
     median_value = commits['commits'].median()
-    ax.axhline(y=median_value, color=c[0], label=int(median_value))
+    ax.axhline(
+        y=median_value,
+        color='#33bbee',
+        label=int(median_value)
+    )
     ax.legend(frameon=False)
     despine(ax)
     ax.figure.savefig('commits_daily.svg', format='svg')
