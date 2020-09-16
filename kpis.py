@@ -10,6 +10,7 @@ time -f '%e' ./kpis.py
 ./kpis.py > kpis.txt
 ./kpis.py
 '''
+
 from datetime import date, datetime, timedelta
 from typing import List, Dict, Optional
 from itertools import groupby
@@ -160,8 +161,8 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     figure_width_height = (12, 6)
     c = cm.Paired.colors
     title = 'Daily commits'
-    ylabel = 'Number of commits'
-    xlabel = 'Date'
+    y_label = 'Number of commits'
+    x_label = 'Date'
     if activity is None:
         activity = recent_activity()
     commits = activity.reset_index().groupby('date').agg('sum')
@@ -172,8 +173,8 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
         figuresize=figure_width_height
     )
     ax.plot(commits['low'], marker='x', color=c[5])
-    ax.set_ylabel(ylabel)
-    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel=y_label)
+    ax.set_xlabel(xlabel=x_label)
     ax.set_title(title, fontweight='bold')
     median_value = commits['commits'].median()
     ax.axhline(y=median_value, color=c[0], label=int(median_value))
