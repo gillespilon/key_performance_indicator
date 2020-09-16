@@ -17,8 +17,6 @@ from itertools import groupby
 from pathlib import Path
 from os import chdir
 import subprocess
-import webbrowser
-import sys
 
 from dateutil.parser import parse as parsedate
 import matplotlib.axes as axes
@@ -46,9 +44,11 @@ def main():
     )
 
 
-def commit_datetimes_since(repository: Path,
-                           since: date,
-                           until_inclusive: date = None) -> List[datetime]:
+def commit_datetimes_since(
+    repository: Path,
+    since: date,
+    until_inclusive: date = None
+) -> List[datetime]:
     '''
     Return all commit datetimes authored since given date.
 
@@ -60,7 +60,6 @@ def commit_datetimes_since(repository: Path,
     Returns:
         author_date     : List[datetime]
     '''
-
     if until_inclusive is None:
         until_inclusive = date.today()
     return [
