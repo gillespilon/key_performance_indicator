@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-'''
+"""
 Calculate the number of daily commits for all git repositories.
 
 Draw a line plot of daily commits versus date.
@@ -9,7 +9,7 @@ time -f '%e' ./kpis.py > kpis.txt
 time -f '%e' ./kpis.py
 ./kpis.py > kpis.txt
 ./kpis.py
-'''
+"""
 
 from datetime import date, datetime, timedelta
 from typing import List, Dict, Optional
@@ -49,7 +49,7 @@ def commit_datetimes_since(
     since: date,
     until_inclusive: date = None
 ) -> List[datetime]:
-    '''
+    """
     Return all commit datetimes authored since given date.
 
     Parameters
@@ -61,7 +61,7 @@ def commit_datetimes_since(
     Returns
     -------
     author_date : List[datetime]:
-    '''
+    """
     if until_inclusive is None:
         until_inclusive = date.today()
     return [
@@ -80,12 +80,12 @@ def commit_datetimes_since(
 
 
 def repository_paths() -> List[Path]:
-    '''
+    """
     List of repository paths.
 
     Returns:
         List[Path]
-    '''
+    """
     return [
         Path.home() / 'documents' / 'websites' / repository_path
         for repository_path
@@ -98,7 +98,7 @@ def repository_paths() -> List[Path]:
 
 
 def repo_date_counts(repo: Path) -> Dict[date, int]:
-    '''
+    """
     Dictionary of commits per day.
 
     Parameters:
@@ -106,7 +106,7 @@ def repo_date_counts(repo: Path) -> Dict[date, int]:
 
     Returns:
         date    : Dict[date, int]
-    '''
+    """
     ago_31 = date.today() - timedelta(days=31)
     return {
         date: len(list(commits))
@@ -117,12 +117,12 @@ def repo_date_counts(repo: Path) -> Dict[date, int]:
 
 
 def recent_activity() -> pd.DataFrame:
-    '''
+    """
     Dataframe of known commits
 
     Returns:
         pd.DataFrame
-    '''
+    """
     last_31_days = [
         date.today() - timedelta(days=i)
         for i
@@ -143,7 +143,7 @@ def recent_activity() -> pd.DataFrame:
 
 
 def despine(ax: axes.Axes) -> None:
-    '''
+    """
     Remove the top and right spines of a graph.
 
     Parameters
@@ -153,18 +153,18 @@ def despine(ax: axes.Axes) -> None:
     Example
     -------
     >>> despine(ax)
-    '''
+    """
     for spine in 'right', 'top':
         ax.spines[spine].set_visible(False)
 
 
 def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
-    '''
+    """
     Line plot of number commits versus date.
 
     Parameters:
         activity    : pd.DataFrame
-    '''
+    """
     figure_width_height = (12, 6)
     title = 'Daily commits'
     y_label = 'Number of commits'
