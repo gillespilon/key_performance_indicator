@@ -173,8 +173,14 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
         figuresize=figure_width_height
     )
     ax.plot(commits['low'], marker='x', color=c[5])
-    ax.set_ylabel(ylabel=y_label)
-    ax.set_xlabel(xlabel=x_label)
+    ax.set_ylabel(
+        ylabel=y_label,
+        fontweight='bold'
+    )
+    ax.set_xlabel(
+        xlabel=x_label,
+        fontweight='bold'
+    )
     ax.set_title(title, fontweight='bold')
     median_value = commits['commits'].median()
     ax.axhline(y=median_value, color=c[0], label=int(median_value))
