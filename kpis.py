@@ -26,20 +26,24 @@ import datasense as ds
 import pandas as pd
 
 chdir(Path(__file__).parent.__str__())  # required for cron
+output_url = 'commits.html'
+header_title = 'Commits'
+header_id = 'commits'
 
 
 def main():
-    original_stdout = sys.stdout
-    output_url = 'commits.html'
-    sys.stdout = open(output_url, 'w')
-    ds.html_header('Commits', 'commits')
+    original_stdout = ds.html_begin(
+        outputurl=output_url,
+        headertitle=header_title,
+        headerid=header_id
+    )
     activity = recent_activity()
     plot_recent_activity(activity)
     activity.to_csv('activity.csv')
-    ds.html_footer()
-    sys.stdout.close()
-    sys.stdout = original_stdout
-    webbrowser.open_new_tab(output_url)
+    ds.html_end(
+        originalstdout=original_stdout,
+        outputurl=output_url
+    )
 
 
 def commit_datetimes_since(repository: Path,
