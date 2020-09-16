@@ -25,7 +25,7 @@ import matplotlib.axes as axes
 import datasense as ds
 import pandas as pd
 
-chdir(Path(__file__).parent.__str__())
+chdir(Path(__file__).parent.__str__())  # required for cron
 
 
 def main():
