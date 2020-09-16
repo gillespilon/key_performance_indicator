@@ -52,13 +52,15 @@ def commit_datetimes_since(
     '''
     Return all commit datetimes authored since given date.
 
-    Parameters:
-        repository      : Path
-        since           : date
-        until_inclusive : List[datetime]
+    Parameters
+    ----------
+    repository : Path
+    since : date
+    until_inclusive : List[datetime]
 
-    Returns:
-        author_date     : List[datetime]
+    Returns
+    -------
+    author_date : List[datetime]:
     '''
     if until_inclusive is None:
         until_inclusive = date.today()
