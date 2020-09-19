@@ -35,9 +35,11 @@ def main():
         headertitle=header_title,
         headerid=header_id
     )
+    print('<pre>')
     activity = recent_activity()
     plot_recent_activity(activity)
     activity.to_csv('activity.csv')
+    print('</pre>')
     ds.html_end(
         originalstdout=original_stdout,
         outputurl=output_url
