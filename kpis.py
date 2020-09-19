@@ -84,8 +84,9 @@ def repository_paths() -> List[Path]:
     """
     List of repository paths.
 
-    Returns:
-        List[Path]
+    Returns
+    -------
+    List[Path]
     """
     return [
         Path.home() / 'documents' / 'websites' / repository_path
@@ -102,11 +103,13 @@ def repo_date_counts(repo: Path) -> Dict[date, int]:
     """
     Dictionary of commits per day.
 
-    Parameters:
-        repo    : Path
+    Parameters
+    ----------
+    repo : Path
 
-    Returns:
-        date    : Dict[date, int]
+    Returns
+    -------
+    date : Dict[date, int]
     """
     ago_31 = date.today() - timedelta(days=31)
     return {
@@ -121,8 +124,9 @@ def recent_activity() -> pd.DataFrame:
     """
     Dataframe of known commits
 
-    Returns:
-        pd.DataFrame
+    Returns
+    -------
+    pd.DataFrame
     """
     last_31_days = [
         date.today() - timedelta(days=i)
@@ -163,8 +167,9 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     """
     Line plot of number commits versus date.
 
-    Parameters:
-        activity    : pd.DataFrame
+    Parameters
+    ----------
+    activity    : pd.DataFrame
     """
     figure_width_height = (12, 6)
     title = 'Daily commits'
