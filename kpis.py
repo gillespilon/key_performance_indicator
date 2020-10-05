@@ -206,7 +206,10 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     )
     ax.legend(frameon=False)
     despine(ax)
-    ax.figure.savefig('commits_daily.svg', format='svg')
+    fig.savefig(
+        fname='commits_daily.svg',
+        format='svg'
+    )
     print(f'Commits by date\n{commits}\n')
     print(f"Median commits: {median_value.astype(int)}\n")
     print(f"Commits by ascending value\n{commits.sort_values(by='commits')}\n")
