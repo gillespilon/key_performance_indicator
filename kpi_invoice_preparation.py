@@ -21,6 +21,13 @@ xlabel = 'Date'
 columns = ['Start invoice', 'Send invoice', 'Total time']
 
 
+def main():
+    invoicing = pd.read_csv('invoice_preparation_time.csv',
+                            parse_dates=True,
+                            index_col='Date')
+    calculate_cycle_time(invoicing, columns)
+    plot_cycle_time(invoicing, columns)
+
 def despine(ax: axes.Axes) -> None:
     """
     Remove the top and right spines of a graph.
@@ -66,8 +73,4 @@ def plot_cycle_time(df, columns):
 
 
 if __name__ == '__main__':
-    invoicing = pd.read_csv('invoice_preparation_time.csv',
-                            parse_dates=True,
-                            index_col='Date')
-    calculate_cycle_time(invoicing, columns)
-    plot_cycle_time(invoicing, columns)
+    main()
