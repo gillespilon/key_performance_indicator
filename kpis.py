@@ -210,6 +210,7 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
         fname='commits_daily.svg',
         format='svg'
     )
+    print('<p><img src="commits_daily.svg"/></p>')
     print(f'Commits by date\n{commits}\n')
     print(f"Median commits: {median_value.astype(int)}\n")
     print(f"Commits by ascending value\n{commits.sort_values(by='commits')}\n")
