@@ -34,7 +34,7 @@ def main():
         headertitle=header_title,
         headerid=header_id
     )
-    print('<pre>')
+    print('<pre style="white-space: pre-wrap;">')
     activity = recent_activity()
     plot_recent_activity(activity)
     activity.to_csv('activity.csv')
