@@ -43,7 +43,7 @@ def main():
     ax.set_ylabel(ylabel)
     ax.set_xlabel(date_column)
     fig.savefig(
-        'invoice_cycle_time.svg',
+        fname='invoice_cycle_time.svg',
         format='svg'
     )
 
