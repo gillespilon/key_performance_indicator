@@ -171,7 +171,7 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     ----------
     activity    : pd.DataFrame
     """
-    figure_width_height = (12, 6)
+    figsize = (12, 6)
     title = 'Daily commits'
     y_label = 'Number of commits'
     x_label = 'Date'
@@ -182,7 +182,7 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     fig, ax = ds.plot_line_x_y(
         X=commits.index,
         y=commits['commits'],
-        figuresize=figure_width_height
+        figsize=figsize
     )
     ax.plot(
         commits['low'],
