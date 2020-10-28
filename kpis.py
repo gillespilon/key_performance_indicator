@@ -147,22 +147,6 @@ def recent_activity() -> pd.DataFrame:
     ).set_index(['repo', 'date'])
 
 
-def despine(ax: axes.Axes) -> None:
-    """
-    Remove the top and right spines of a graph.
-
-    Parameters
-    ----------
-    ax : axes.Axes
-
-    Example
-    -------
-    >>> despine(ax)
-    """
-    for spine in 'right', 'top':
-        ax.spines[spine].set_visible(False)
-
-
 def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     """
     Line plot of number commits versus date.
@@ -205,7 +189,7 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
         label=int(median_value)
     )
     ax.legend(frameon=False)
-    despine(ax)
+    ds.despine(ax)
     fig.savefig(
         fname='commits_daily.svg',
         format='svg'
