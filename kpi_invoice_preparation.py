@@ -37,7 +37,7 @@ def main():
         X=invoicing[date_column],
         y=invoicing[total_time_column]
     )
-    despine(ax)
+    ds.despine(ax)
     fig.suptitle(fig_title)
     ax.set_title(ax_title)
     ax.set_ylabel(ylabel)
@@ -46,22 +46,6 @@ def main():
         fname='invoice_cycle_time.svg',
         format='svg'
     )
-
-
-def despine(ax: axes.Axes) -> None:
-    """
-    Remove the top and right spines of a graph.
-
-    Parameters
-    ----------
-    ax : axes.Axes
-
-    Example
-    -------
-    >>> despine(ax)
-    """
-    for spine in 'right', 'top':
-        ax.spines[spine].set_visible(False)
 
 
 def calculate_cycle_time(
