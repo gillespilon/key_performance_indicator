@@ -38,7 +38,7 @@ def main():
         y=invoicing[total_time_column]
     )
     ds.despine(ax)
-    fig.suptitle(fig_title)
+    fig.suptitle(t=fig_title)
     ax.set_title(ax_title)
     ax.set_ylabel(ylabel)
     ax.set_xlabel(date_column)
