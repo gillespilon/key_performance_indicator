@@ -41,7 +41,7 @@ def main():
     fig.suptitle(t=fig_title)
     ax.set_title(ax_title)
     ax.set_ylabel(ylabel)
-    ax.set_xlabel(date_column)
+    ax.set_xlabel(xlabel=date_column)
     fig.savefig(
         fname='invoice_cycle_time.svg',
         format='svg'
