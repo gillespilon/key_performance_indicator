@@ -40,7 +40,7 @@ def main():
     ds.despine(ax)
     fig.suptitle(t=fig_title)
     ax.set_title(ax_title)
-    ax.set_ylabel(ylabel)
+    ax.set_ylabel(ylabel=ylabel)
     ax.set_xlabel(xlabel=date_column)
     fig.savefig(
         fname='invoice_cycle_time.svg',
