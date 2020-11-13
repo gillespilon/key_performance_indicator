@@ -18,17 +18,15 @@ from os import chdir
 import subprocess
 
 from dateutil.parser import parse as parsedate
-import matplotlib.axes as axes
 import datasense as ds
 import pandas as pd
 
-chdir(Path(__file__).parent.__str__())  # required for cron
-output_url = 'commits.html'
-header_title = 'Commits'
-header_id = 'commits'
-
 
 def main():
+    chdir(Path(__file__).parent.__str__())  # required for cron
+    output_url = 'commits.html'
+    header_title = 'Commits'
+    header_id = 'commits'
     original_stdout = ds.html_begin(
         output_url=output_url,
         header_title=header_title,
