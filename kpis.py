@@ -32,11 +32,9 @@ def main():
         header_title=header_title,
         header_id=header_id
     )
-    print('<pre style="white-space: pre-wrap;">')
     activity = recent_activity()
     plot_recent_activity(activity)
     activity.to_csv('activity.csv')
-    print('</pre>')
     ds.html_end(
         original_stdout=original_stdout,
         output_url=output_url
