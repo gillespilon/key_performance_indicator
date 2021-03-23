@@ -23,7 +23,8 @@ import pandas as pd
 
 
 def main():
-    chdir(Path(__file__).parent.__str__())  # required for cron
+    chdir(Path(__file__).parent.resolve())  # required for cron
+    # chdir(Path(__file__).parent.__str__())  # required for cron
     output_url = 'commits.html'
     header_title = 'Commits'
     header_id = 'commits'
