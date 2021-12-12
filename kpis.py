@@ -18,6 +18,7 @@ from os import chdir
 import subprocess
 
 from dateutil.parser import parse as parsedate
+import matplotlib.dates as mdates
 import datasense as ds
 import pandas as pd
 
@@ -170,6 +171,7 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
         marker='x',
         color='#cc3311'
     )
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d'))
     ax.set_ylabel(
         ylabel=y_label,
         fontweight='bold'
@@ -196,9 +198,9 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     )
     ds.html_figure(file_name="commits_daily.svg")
     print(f'Commits by date\n{commits}\n')
-    print(f"Median commits: {median_value.astype(int)}\n")
+    print(f"Median commits: {median_value.astype(dtype='int')}\n")
     print(f"Commits by ascending value\n{commits.sort_values(by='commits')}\n")
-    print(f"Median commits: {median_value.astype(int)}")
+    print(f"Median commits: {median_value.astype(dtype='int')}")
 
 
 if __name__ == '__main__':
@@ -220,5 +222,5 @@ if __name__ == '__main__':
 #        columns=['repo', 'date', 'commits'],
 #    ).set_index(['repo', 'date']),
 #    how='left',
-# ).fillna(0).astype(int)
+# ).fillna(0).astype(dtype='int')
 # df.to_csv('2.csv')
