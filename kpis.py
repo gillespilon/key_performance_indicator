@@ -56,7 +56,7 @@ def commit_datetimes_since(
     ----------
     repository : Path
     since : date
-    until_inclusive : List[datetime]
+    until_inclusive : date
 
     Returns
     -------
@@ -83,10 +83,17 @@ def commit_datetimes_since(
 
 def repository_paths(
     column: str,
-    repositories: str
+    repositories: Path
 ) -> List[Path]:
     """
     List of repository paths.
+
+    Parameters
+    ---------
+    column : str
+        Column name.
+    repositories : str
+        Path of the repositories.
 
     Returns
     -------
@@ -127,7 +134,7 @@ def repo_date_counts(repo: Path) -> Dict[date, int]:
 
 def recent_activity(
     column: 'str',
-    repositories: 'str',
+    repositories: Path,
     df_columns: List[str]
 ) -> pd.DataFrame:
     """
@@ -169,7 +176,7 @@ def plot_recent_activity(
 
     Parameters
     ----------
-    activity    : pd.DataFrame
+    activity : pd.DataFrame
     """
     figsize = (12, 6)
     title = "Daily commits"
