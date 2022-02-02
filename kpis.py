@@ -25,6 +25,7 @@ import pandas as pd
 
 def main():
     chdir(Path(__file__).parent.resolve())  # required for cron
+    path_repositories_file = Path("repositories.ods")
     repositories_column = "Repository path"
     output_url = "commits.html"
     header_title = "Commits"
@@ -32,7 +33,10 @@ def main():
     original_stdout = ds.html_begin(
         output_url=output_url, header_title=header_title, header_id=header_id
     )
-    activity = recent_activity(column=repositories_column)
+    activity = recent_activity(
+        column=repositories_column,
+        repositories=path_repositories_file
+    )
     plot_recent_activity(activity)
     ds.html_end(original_stdout=original_stdout, output_url=output_url)
 
@@ -72,7 +76,10 @@ def commit_datetimes_since(
     ]
 
 
-def repository_paths(column: str) -> List[Path]:
+def repository_paths(
+    column: str,
+    repositories: str
+) -> List[Path]:
     """
     List of repository paths.
 
@@ -83,7 +90,7 @@ def repository_paths(column: str) -> List[Path]:
     return [
         Path.home() / "documents" / "websites" / repository_path
         for repository_path in pd.read_excel(
-            "repositories.ods",
+            repositories,
             index_col=False,
             engine="odf",
             usecols=[column],
@@ -114,7 +121,8 @@ def repo_date_counts(repo: Path) -> Dict[date, int]:
 
 
 def recent_activity(
-    column: 'str'
+    column: 'str',
+    repositories: 'str'
 ) -> pd.DataFrame:
     """
     Dataframe of known commits
@@ -124,7 +132,10 @@ def recent_activity(
     pd.DataFrame
     """
     last_31_days = [date.today() - timedelta(days=i) for i in range(31)]
-    paths = repository_paths(column=column)
+    paths = repository_paths(
+        column=column,
+        repositories=repositories
+    )
     known_commits = {repo: repo_date_counts(repo) for repo in paths}
     df = pd.DataFrame(
         [
