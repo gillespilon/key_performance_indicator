@@ -25,26 +25,19 @@ import pandas as pd
 
 def main():
     chdir(Path(__file__).parent.resolve())  # required for cron
-    output_url = 'commits.html'
-    header_title = 'Commits'
-    header_id = 'commits'
+    output_url = "commits.html"
+    header_title = "Commits"
+    header_id = "commits"
     original_stdout = ds.html_begin(
-        output_url=output_url,
-        header_title=header_title,
-        header_id=header_id
+        output_url=output_url, header_title=header_title, header_id=header_id
     )
     activity = recent_activity()
     plot_recent_activity(activity)
-    ds.html_end(
-        original_stdout=original_stdout,
-        output_url=output_url
-    )
+    ds.html_end(original_stdout=original_stdout, output_url=output_url)
 
 
 def commit_datetimes_since(
-    repository: Path,
-    since: date,
-    until_inclusive: date = None
+    repository: Path, since: date, until_inclusive: date = None
 ) -> List[datetime]:
     """
     Return all commit datetimes authored since given date.
@@ -63,15 +56,17 @@ def commit_datetimes_since(
         until_inclusive = date.today()
     return [
         parsedate(author_date)
-        for author_date
-        in subprocess.check_output(
-            ['git', 'log',
-             '--pretty=%aI',
-             '--author=Gilles',
-             f'--since={since.isoformat()}',
-             f'--until={until_inclusive.isoformat()}'],
+        for author_date in subprocess.check_output(
+            [
+                "git",
+                "log",
+                "--pretty=%aI",
+                "--author=Gilles",
+                f"--since={since.isoformat()}",
+                f"--until={until_inclusive.isoformat()}",
+            ],
             cwd=str(repository),
-            universal_newlines=True
+            universal_newlines=True,
         ).splitlines()
     ]
 
@@ -85,13 +80,13 @@ def repository_paths() -> List[Path]:
     List[Path]
     """
     return [
-        Path.home() / 'documents' / 'websites' / repository_path
-        for repository_path
-        in pd.read_excel('repositories.ods',
-                         index_col=False,
-                         engine='odf',
-                         usecols=['Repository path'])
-           ['Repository path']
+        Path.home() / "documents" / "websites" / repository_path
+        for repository_path in pd.read_excel(
+            "repositories.ods",
+            index_col=False,
+            engine="odf",
+            usecols=["Repository path"],
+        )["Repository path"]
     ]
 
 
@@ -110,9 +105,10 @@ def repo_date_counts(repo: Path) -> Dict[date, int]:
     ago_31 = date.today() - timedelta(days=31)
     return {
         date: len(list(commits))
-        for date, commits
-        in groupby(sorted(commit_datetimes_since(repo, ago_31)),
-                   key=lambda dt: dt.date())
+        for date, commits in groupby(
+            sorted(commit_datetimes_since(repo, ago_31)),
+            key=lambda dt: dt.date()
+        )
     }
 
 
@@ -124,29 +120,18 @@ def recent_activity() -> pd.DataFrame:
     -------
     pd.DataFrame
     """
-    last_31_days = [
-        date.today() - timedelta(days=i)
-        for i
-        in range(31)
-    ]
+    last_31_days = [date.today() - timedelta(days=i) for i in range(31)]
     paths = repository_paths()
-    known_commits = {
-        repo: repo_date_counts(repo)
-        for repo
-        in paths
-    }
-    df = (
-        pd.DataFrame(
-            [(repo, date, known_commits[repo].get(date, 0))
-             for repo in paths
-             for date in last_31_days],
-            columns=['repo', 'date', 'commits'],
-        )
-        .astype(dtype={
-            'repo': 'str',
-            'date': 'datetime64[ns]',
-            'commits': 'int64'
-        })
+    known_commits = {repo: repo_date_counts(repo) for repo in paths}
+    df = pd.DataFrame(
+        [
+            (repo, date, known_commits[repo].get(date, 0))
+            for repo in paths
+            for date in last_31_days
+        ],
+        columns=["repo", "date", "commits"],
+    ).astype(
+        dtype={"repo": "str", "date": "datetime64[ns]", "commits": "int64"}
     )
     return df
 
@@ -160,51 +145,35 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     activity    : pd.DataFrame
     """
     figsize = (12, 6)
-    title = 'Daily commits'
-    y_label = 'Number of commits'
-    x_label = 'Date'
+    title = "Daily commits"
+    y_label = "Number of commits"
+    x_label = "Date"
     if activity is None:
         activity = recent_activity()
-    commits = activity.groupby('date').agg('sum').reset_index()
+    commits = activity.groupby("date").agg("sum").reset_index()
     fig, ax = ds.plot_line_x_y(
         # X=commits.index,
-        X=commits['date'],
-        y=commits['commits'],
-        figsize=figsize
+        X=commits["date"],
+        y=commits["commits"],
+        figsize=figsize,
     )
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d'))
-    ax.set_ylabel(
-        ylabel=y_label,
-        fontweight='bold'
-    )
-    ax.set_xlabel(
-        xlabel=x_label,
-        fontweight='bold'
-    )
-    ax.set_title(
-        label=title,
-        fontweight='bold'
-    )
-    median_value = commits['commits'].median()
-    ax.axhline(
-        y=median_value,
-        color='#33bbee',
-        label=int(median_value)
-    )
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d"))
+    ax.set_ylabel(ylabel=y_label, fontweight="bold")
+    ax.set_xlabel(xlabel=x_label, fontweight="bold")
+    ax.set_title(label=title, fontweight="bold")
+    median_value = commits["commits"].median()
+    ax.axhline(y=median_value, color="#33bbee", label=int(median_value))
     ax.legend(frameon=False)
     ds.despine(ax)
-    fig.savefig(
-        fname='commits_daily.svg',
-        format='svg'
-    )
+    fig.savefig(fname="commits_daily.svg", format="svg")
     ds.html_figure(file_name="commits_daily.svg")
-    print(f'Commits by date\n{commits}\n')
+    print(f"Commits by date\n{commits}\n")
     print(f"Median commits: {median_value.astype(dtype='int')}\n")
     print(f"Commits by ascending value\n{commits.sort_values(by='commits')}\n")
     print(f"Median commits: {median_value.astype(dtype='int')}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
 
 
