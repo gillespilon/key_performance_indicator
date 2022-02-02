@@ -11,7 +11,7 @@ time -f '%e' ./kpis.py
 """
 
 from datetime import date, datetime, timedelta
-from typing import List, Dict, Optional
+from typing import Dict, List
 from itertools import groupby
 from pathlib import Path
 from os import chdir
@@ -25,6 +25,7 @@ import pandas as pd
 
 def main():
     chdir(Path(__file__).parent.resolve())  # required for cron
+    df_columns = ["repo", "date", "commits"]
     path_repositories_file = Path("repositories.ods")
     repositories_column = "Repository path"
     output_url = "commits.html"
@@ -35,9 +36,13 @@ def main():
     )
     activity = recent_activity(
         column=repositories_column,
-        repositories=path_repositories_file
+        repositories=path_repositories_file,
+        df_columns=df_columns
     )
-    plot_recent_activity(activity)
+    plot_recent_activity(
+        activity=activity,
+        df_columns=df_columns
+    )
     ds.html_end(original_stdout=original_stdout, output_url=output_url)
 
 
@@ -122,7 +127,8 @@ def repo_date_counts(repo: Path) -> Dict[date, int]:
 
 def recent_activity(
     column: 'str',
-    repositories: 'str'
+    repositories: 'str',
+    df_columns: List[str]
 ) -> pd.DataFrame:
     """
     Dataframe of known commits
@@ -143,14 +149,21 @@ def recent_activity(
             for repo in paths
             for date in last_31_days
         ],
-        columns=["repo", "date", "commits"],
+        columns=df_columns,
     ).astype(
-        dtype={"repo": "str", "date": "datetime64[ns]", "commits": "int64"}
+        dtype={
+            df_columns[0]: "str",
+            df_columns[1]: "datetime64[ns]",
+            df_columns[2]: "int64"
+        }
     )
     return df
 
 
-def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
+def plot_recent_activity(
+    activity: pd.DataFrame,
+    df_columns: List[str]
+) -> None:
     """
     Line plot of number commits versus date.
 
@@ -164,18 +177,18 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     x_label = "Date"
     if activity is None:
         activity = recent_activity()
-    commits = activity.groupby("date").agg("sum").reset_index()
+    commits = activity.groupby(df_columns[1]).agg("sum").reset_index()
     fig, ax = ds.plot_line_x_y(
         # X=commits.index,
-        X=commits["date"],
-        y=commits["commits"],
+        X=commits[df_columns[1]],
+        y=commits[df_columns[2]],
         figsize=figsize,
     )
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d"))
     ax.set_ylabel(ylabel=y_label, fontweight="bold")
     ax.set_xlabel(xlabel=x_label, fontweight="bold")
     ax.set_title(label=title, fontweight="bold")
-    median_value = commits["commits"].median()
+    median_value = commits[df_columns[2]].median()
     ax.axhline(y=median_value, color="#33bbee", label=int(median_value))
     ax.legend(frameon=False)
     ds.despine(ax)
