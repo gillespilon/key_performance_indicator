@@ -35,7 +35,6 @@ def main():
     )
     activity = recent_activity()
     plot_recent_activity(activity)
-    activity.to_csv('activity.csv')
     ds.html_end(
         original_stdout=original_stdout,
         output_url=output_url
@@ -136,12 +135,20 @@ def recent_activity() -> pd.DataFrame:
         for repo
         in paths
     }
-    return pd.DataFrame(
-        [(repo, date, known_commits[repo].get(date, 0))
-         for repo in paths
-         for date in last_31_days],
-        columns=['repo', 'date', 'commits'],
-    ).set_index(['repo', 'date'])
+    df = (
+        pd.DataFrame(
+            [(repo, date, known_commits[repo].get(date, 0))
+             for repo in paths
+             for date in last_31_days],
+            columns=['repo', 'date', 'commits'],
+        )
+        .astype(dtype={
+            'repo': 'str',
+            'date': 'datetime64[ns]',
+            'commits': 'int64'
+        })
+    )
+    return df
 
 
 def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
@@ -158,17 +165,12 @@ def plot_recent_activity(activity: Optional[pd.DataFrame] = None) -> None:
     x_label = 'Date'
     if activity is None:
         activity = recent_activity()
-    commits = activity.reset_index().groupby('date').agg('sum')
-    commits['low'] = commits['commits'].where(commits['commits'].between(0, 0))
+    commits = activity.groupby('date').agg('sum').reset_index()
     fig, ax = ds.plot_line_x_y(
-        X=commits.index,
+        # X=commits.index,
+        X=commits['date'],
         y=commits['commits'],
         figsize=figsize
-    )
-    ax.plot(
-        commits['low'],
-        marker='x',
-        color='#cc3311'
     )
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d'))
     ax.set_ylabel(
@@ -222,4 +224,4 @@ if __name__ == '__main__':
 #    ).set_index(['repo', 'date']),
 #    how='left',
 # ).fillna(0).astype(dtype='int')
-# df.to_csv('2.csv')
+# df.to_csv('2.csvactivity
