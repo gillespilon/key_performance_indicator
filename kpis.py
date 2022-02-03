@@ -186,6 +186,7 @@ def recent_activity(
 
 
 def plot_recent_activity(
+    *,
     activity: pd.DataFrame,
     df_columns: List[str]
 ) -> None:
