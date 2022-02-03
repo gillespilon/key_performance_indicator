@@ -191,6 +191,7 @@ def plot_recent_activity(
         y=commits[df_columns[2]],
         figsize=figsize,
     )
+    ax.set_ylim(bottom=-1)
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d"))
     ax.set_ylabel(ylabel=y_label, fontweight="bold")
     ax.set_xlabel(xlabel=x_label, fontweight="bold")
