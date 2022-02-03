@@ -49,21 +49,7 @@ def main():
     )
     plot_recent_activity(activity=activity, df_columns=df_columns)
     for x in functions:
-        print("==============================")
-        print("START of output for a function")
-        print()
-        print("function name     :", x.__name__)
-        print()
-        print("function signature:", signature(x))
-        print()
-        for param in signature(x).parameters.values():
-            print(param, param.kind.description)
-        print()
-        print(help(x))
-        print()
-        print("FINISH of output for a function")
-        print("===============================")
-        print()
+        ds.explore_functions(function=x)
     ds.html_end(original_stdout=original_stdout, output_url=output_url)
 
 
