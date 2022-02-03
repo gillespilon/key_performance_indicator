@@ -11,8 +11,8 @@ time -f '%e' ./kpis.py
 """
 
 from datetime import date, datetime, timedelta
+from typing import Dict, List, NoReturn
 from inspect import signature
-from typing import Dict, List
 from itertools import groupby
 from pathlib import Path
 from os import chdir
@@ -189,7 +189,7 @@ def plot_recent_activity(
     *,
     activity: pd.DataFrame,
     df_columns: List[str]
-) -> None:
+) -> NoReturn:
     """
     Line plot of number commits versus date.
 
