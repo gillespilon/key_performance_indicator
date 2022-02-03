@@ -11,6 +11,7 @@ time -f '%e' ./kpis.py
 """
 
 from datetime import date, datetime, timedelta
+from inspect import signature
 from typing import Dict, List
 from itertools import groupby
 from pathlib import Path
@@ -25,29 +26,49 @@ import pandas as pd
 
 def main():
     chdir(Path(__file__).parent.resolve())  # required for cron
-    df_columns = ["repo", "date", "commits"]
     path_repositories_file = Path("repositories.ods")
+    df_columns = ["repo", "date", "commits"]
     repositories_column = "Repository path"
     output_url = "commits.html"
     header_title = "Commits"
     header_id = "commits"
+    functions = [
+        commit_datetimes_since,
+        plot_recent_activity,
+        repository_paths,
+        repo_date_counts,
+        recent_activity,
+    ]
     original_stdout = ds.html_begin(
         output_url=output_url, header_title=header_title, header_id=header_id
     )
     activity = recent_activity(
         column=repositories_column,
         repositories=path_repositories_file,
-        df_columns=df_columns
+        df_columns=df_columns,
     )
-    plot_recent_activity(
-        activity=activity,
-        df_columns=df_columns
-    )
+    plot_recent_activity(activity=activity, df_columns=df_columns)
+    for x in functions:
+        print("==============================")
+        print("START of output for a function")
+        print()
+        print("function name     :", x.__name__)
+        print()
+        print("function signature:", signature(x))
+        print()
+        for param in signature(x).parameters.values():
+            print(param, param.kind.description)
+        print()
+        print(help(x.__name__))
+        print()
+        print("FINISH of output for a function")
+        print("===============================")
+        print()
     ds.html_end(original_stdout=original_stdout, output_url=output_url)
 
 
 def commit_datetimes_since(
-    repository: Path, since: date, until_inclusive: date = None
+    *, repository: Path, since: date, until_inclusive: date = None
 ) -> List[datetime]:
     """
     Return all commit datetimes authored since given date.
@@ -81,10 +102,7 @@ def commit_datetimes_since(
     ]
 
 
-def repository_paths(
-    column: str,
-    repositories: Path
-) -> List[Path]:
+def repository_paths(column: str, repositories: Path) -> List[Path]:
     """
     List of repository paths.
 
@@ -126,16 +144,18 @@ def repo_date_counts(repo: Path) -> Dict[date, int]:
     return {
         date: len(list(commits))
         for date, commits in groupby(
-            sorted(commit_datetimes_since(repo, ago_31)),
-            key=lambda dt: dt.date()
+            sorted(
+                commit_datetimes_since(
+                    repository=repo, since=ago_31, until_inclusive=None
+                )
+            ),
+            key=lambda dt: dt.date(),
         )
     }
 
 
 def recent_activity(
-    column: 'str',
-    repositories: Path,
-    df_columns: List[str]
+    column: "str", repositories: Path, df_columns: List[str]
 ) -> pd.DataFrame:
     """
     Dataframe of known commits
@@ -145,10 +165,7 @@ def recent_activity(
     pd.DataFrame
     """
     last_31_days = [date.today() - timedelta(days=i) for i in range(31)]
-    paths = repository_paths(
-        column=column,
-        repositories=repositories
-    )
+    paths = repository_paths(column=column, repositories=repositories)
     known_commits = {repo: repo_date_counts(repo) for repo in paths}
     df = pd.DataFrame(
         [
@@ -161,7 +178,7 @@ def recent_activity(
         dtype={
             df_columns[0]: "str",
             df_columns[1]: "datetime64[ns]",
-            df_columns[2]: "int64"
+            df_columns[2]: "int64",
         }
     )
     return df
