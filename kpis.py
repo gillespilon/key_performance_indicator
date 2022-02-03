@@ -138,6 +138,7 @@ def repo_date_counts(*, repo: Path) -> Dict[date, int]:
     Parameters
     ----------
     repo : Path
+        Path of repository.
 
     Returns
     -------
