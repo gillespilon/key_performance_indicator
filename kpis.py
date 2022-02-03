@@ -59,7 +59,7 @@ def main():
         for param in signature(x).parameters.values():
             print(param, param.kind.description)
         print()
-        print(help(x.__name__))
+        print(help(x))
         print()
         print("FINISH of output for a function")
         print("===============================")
@@ -160,6 +160,15 @@ def recent_activity(
 ) -> pd.DataFrame:
     """
     Dataframe of known commits
+
+    Parameters
+    ----------
+    column : str
+        Column label in .ods file.
+    repositories : Path
+        Path of .ods file.
+    df_columns : List[str]
+        List of column labels to create.
 
     Returns
     -------
