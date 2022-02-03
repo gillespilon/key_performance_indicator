@@ -102,7 +102,7 @@ def commit_datetimes_since(
     ]
 
 
-def repository_paths(column: str, repositories: Path) -> List[Path]:
+def repository_paths(*, column: str, repositories: Path) -> List[Path]:
     """
     List of repository paths.
 
