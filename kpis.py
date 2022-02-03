@@ -76,8 +76,11 @@ def commit_datetimes_since(
     Parameters
     ----------
     repository : Path
+        Path of repository.
     since : date
+        Start date of commits.
     until_inclusive : date
+        End date of commits.
 
     Returns
     -------
