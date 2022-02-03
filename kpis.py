@@ -122,10 +122,8 @@ def repository_paths(*, column: str, repositories: Path) -> List[Path]:
     """
     return [
         Path.home() / "documents" / "websites" / repository_path
-        for repository_path in pd.read_excel(
-            repositories,
-            index_col=False,
-            engine="odf",
+        for repository_path in ds.read_file(
+            file_name=repositories,
             usecols=[column],
         )[column]
     ]
