@@ -128,7 +128,7 @@ def repository_paths(*, column: str, repositories: Path) -> List[Path]:
     ]
 
 
-def repo_date_counts(repo: Path) -> Dict[date, int]:
+def repo_date_counts(*, repo: Path) -> Dict[date, int]:
     """
     Dictionary of commits per day.
 
@@ -166,7 +166,7 @@ def recent_activity(
     """
     last_31_days = [date.today() - timedelta(days=i) for i in range(31)]
     paths = repository_paths(column=column, repositories=repositories)
-    known_commits = {repo: repo_date_counts(repo) for repo in paths}
+    known_commits = {repo: repo_date_counts(repo=repo) for repo in paths}
     df = pd.DataFrame(
         [
             (repo, date, known_commits[repo].get(date, 0))
