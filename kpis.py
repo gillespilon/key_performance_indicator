@@ -155,6 +155,7 @@ def repo_date_counts(*, repo: Path) -> Dict[date, int]:
 
 
 def recent_activity(
+    *,
     column: "str", repositories: Path, df_columns: List[str]
 ) -> pd.DataFrame:
     """
