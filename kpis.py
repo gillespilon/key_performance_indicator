@@ -205,6 +205,9 @@ def plot_recent_activity(
     Parameters
     ----------
     activity : pd.DataFrame
+        DataFrame of commit activity.
+    df_columns : List[str]
+        List of column labels to create.
     """
     figsize = (12, 6)
     title = "Daily commits"
