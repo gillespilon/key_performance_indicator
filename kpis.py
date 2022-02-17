@@ -29,6 +29,7 @@ def main():
     path_repositories_file = Path("repositories.ods")
     df_columns = ["repo", "date", "commits"]
     repositories_column = "Repository path"
+    path_activity = Path("activity.ods")
     output_url = "commits.html"
     header_title = "Commits"
     header_id = "commits"
@@ -46,6 +47,10 @@ def main():
         column=repositories_column,
         repositories=path_repositories_file,
         df_columns=df_columns,
+    )
+    ds.save_file(
+        df=activity,
+        file_name=path_activity
     )
     plot_recent_activity(activity=activity, df_columns=df_columns)
     for x in functions:
