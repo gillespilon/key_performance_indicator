@@ -12,7 +12,6 @@ time -f '%e' ./kpis.py
 
 from datetime import date, datetime, timedelta
 from typing import Dict, List, NoReturn
-from inspect import signature
 from itertools import groupby
 from pathlib import Path
 from os import chdir
@@ -33,13 +32,13 @@ def main():
     output_url = "commits.html"
     header_title = "Commits"
     header_id = "commits"
-    functions = [
-        commit_datetimes_since,
-        plot_recent_activity,
-        repository_paths,
-        repo_date_counts,
-        recent_activity,
-    ]
+    # functions = [
+    #     commit_datetimes_since,
+    #     plot_recent_activity,
+    #     repository_paths,
+    #     repo_date_counts,
+    #     recent_activity,
+    # ]
     original_stdout = ds.html_begin(
         output_url=output_url, header_title=header_title, header_id=header_id
     )
@@ -53,8 +52,8 @@ def main():
         file_name=path_activity
     )
     plot_recent_activity(activity=activity, df_columns=df_columns)
-    for x in functions:
-        ds.explore_functions(function=x)
+    # for x in functions:
+    #     ds.explore_functions(function=x)
     ds.html_end(original_stdout=original_stdout, output_url=output_url)
 
 
