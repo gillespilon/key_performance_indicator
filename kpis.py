@@ -222,7 +222,7 @@ def plot_recent_activity(
     median_value = commits[df_columns[2]].median()
     ax.axhline(y=median_value, color="#33bbee", label=int(median_value))
     ax.legend(frameon=False)
-    ds.despine(ax)
+    ds.despine(ax=ax)
     fig.savefig(fname="commits_daily.svg", format="svg")
     ds.html_figure(file_name="commits_daily.svg")
     print(f"Commits by date\n{commits}\n")
