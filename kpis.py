@@ -79,7 +79,7 @@ def commit_datetimes_since(
     if until_inclusive is None:
         until_inclusive = date.today()
     return [
-        parsedate(author_date)
+        parsedate(timestr=author_date)
         for author_date in subprocess.check_output(
             [
                 "git",
