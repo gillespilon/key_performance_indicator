@@ -81,7 +81,7 @@ def commit_datetimes_since(
     return [
         parsedate(timestr=author_date)
         for author_date in subprocess.check_output(
-            [
+            args=[
                 "git",
                 "log",
                 "--pretty=%aI",
