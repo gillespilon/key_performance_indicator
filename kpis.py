@@ -5,9 +5,6 @@ Calculate the number of daily commits for all git repositories.
 - Create a web page of dates, commits.
 - Draw a line plot of daily commits versus date.
 - Must manually update the repository path list repositories.ods.
-
-time -f '%e' ./kpis.py
-./kpis.py
 """
 
 from datetime import date, datetime, timedelta
