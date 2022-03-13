@@ -42,8 +42,6 @@ def main():
         file_name=path_activity
     )
     plot_recent_activity(activity=activity, df_columns=df_columns)
-    # for x in functions:
-    #     ds.explore_functions(function=x)
     ds.html_end(original_stdout=original_stdout, output_url=output_url)
 
 
