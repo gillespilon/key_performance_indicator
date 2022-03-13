@@ -29,13 +29,6 @@ def main():
     output_url = "commits.html"
     header_title = "Commits"
     header_id = "commits"
-    # functions = [
-    #     commit_datetimes_since,
-    #     plot_recent_activity,
-    #     repository_paths,
-    #     repo_date_counts,
-    #     recent_activity,
-    # ]
     original_stdout = ds.html_begin(
         output_url=output_url, header_title=header_title, header_id=header_id
     )
