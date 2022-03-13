@@ -148,7 +148,9 @@ def repo_date_counts(*, repo: Path) -> Dict[date, int]:
 
 def recent_activity(
     *,
-    column: "str", repositories: Path, df_columns: List[str]
+    column: str,
+    repositories: Path,
+    df_columns: List[str]
 ) -> pd.DataFrame:
     """
     Dataframe of known commits
@@ -206,7 +208,9 @@ def plot_recent_activity(
     y_label = "Number of commits"
     x_label = "Date"
     if activity is None:
-        activity = recent_activity()
+        # added next line instead of second line down
+        pass
+        # activity = recent_activity()
     commits = activity.groupby(df_columns[1]).agg("sum").reset_index()
     fig, ax = ds.plot_line_x_y(
         # X=commits.index,
