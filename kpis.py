@@ -25,7 +25,7 @@ def main():
     path_repositories_file = Path("repositories.ods")
     df_columns = ["repo", "date", "commits"]
     repositories_column = "Repository path"
-    path_activity = Path("activity.ods")
+    path_activity = Path("activity_raw.ods")
     output_url = "commits.html"
     header_title = "Commits"
     header_id = "commits"
