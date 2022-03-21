@@ -26,6 +26,7 @@ def main():
     df_columns = ["repo", "date", "commits"]
     repositories_column = "Repository path"
     path_activity_raw = Path("activity_raw.ods")
+    path_activity_grouped_sorted = Path("activity_grouped_sorted.ods")
     output_url = "commits.html"
     header_title = "Commits"
     header_id = "commits"
@@ -41,7 +42,11 @@ def main():
         df=activity,
         file_name=path_activity_raw
     )
-    plot_recent_activity(activity=activity, df_columns=df_columns)
+    plot_recent_activity(
+        activity=activity,
+        df_columns=df_columns,
+        path_activity_grouped_sorted=path_activity_grouped_sorted
+    )
     ds.html_end(original_stdout=original_stdout, output_url=output_url)
 
 
@@ -179,7 +184,8 @@ def recent_activity(
 def plot_recent_activity(
     *,
     activity: pd.DataFrame,
-    df_columns: List[str]
+    df_columns: List[str],
+    path_activity_grouped_sorted: Path
 ) -> NoReturn:
     """
     Line plot of number commits versus date.
@@ -219,7 +225,8 @@ def plot_recent_activity(
     ds.html_figure(file_name="commits_daily.svg")
     print(f"Commits by date\n{commits}\n")
     print(f"Median commits: {median_value.astype(dtype='int')}\n")
-    print(f"Commits by ascending value\n{commits.sort_values(by='commits')}\n")
+    commits_grouped_sorted = commits.sort_values(by="commits")
+    print(f"Commits by ascending value\n{commits_grouped_sorted}\n")
     print(f"Median commits: {median_value.astype(dtype='int')}")
 
 
