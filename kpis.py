@@ -226,8 +226,13 @@ def plot_recent_activity(
     print(f"Commits by date\n{commits}\n")
     print(f"Median commits: {median_value.astype(dtype='int')}\n")
     commits_grouped_sorted = commits.sort_values(by="commits")
+    commits_grouped_sorted["order"] = range(1, 32, 1)
     print(f"Commits by ascending value\n{commits_grouped_sorted}\n")
     print(f"Median commits: {median_value.astype(dtype='int')}")
+    ds.save_file(
+        df=commits_grouped_sorted,
+        file_name=path_activity_grouped_sorted
+    )
 
 
 if __name__ == "__main__":
