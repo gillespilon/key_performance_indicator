@@ -22,11 +22,11 @@ import pandas as pd
 
 def main():
     chdir(Path(__file__).parent.resolve())  # required for cron
+    path_activity_group_sort = Path("activity_grouped_sorted.ods")
     path_repositories_file = Path("repositories.ods")
+    path_activity_raw = Path("activity_raw.ods")
     df_columns = ["repo", "date", "commits"]
     repositories_column = "Repository path"
-    path_activity_raw = Path("activity_raw.ods")
-    path_activity_group_sort = Path("activity_grouped_sorted.ods")
     output_url = "commits.html"
     header_title = "Commits"
     header_id = "commits"
@@ -34,14 +34,12 @@ def main():
         output_url=output_url, header_title=header_title, header_id=header_id
     )
     activity = recent_activity(
-        column=repositories_column,
-        repositories=path_repositories_file,
+        column=repositories_column, repositories=path_repositories_file,
         df_columns=df_columns,
     )
     ds.save_file(df=activity, file_name=path_activity_raw)
     plot_recent_activity(
-        activity=activity,
-        df_columns=df_columns,
+        activity=activity, df_columns=df_columns,
         path_activity_group_sort=path_activity_group_sort,
     )
     ds.html_end(original_stdout=original_stdout, output_url=output_url)
@@ -72,10 +70,7 @@ def commit_datetimes_since(
         parsedate(timestr=author_date)
         for author_date in subprocess.check_output(
             args=[
-                "git",
-                "log",
-                "--pretty=%aI",
-                "--author=Gilles",
+                "git", "log", "--pretty=%aI", "--author=Gilles",
                 f"--since={since.isoformat()}",
                 f"--until={until_inclusive.isoformat()}",
             ],
@@ -167,8 +162,7 @@ def recent_activity(
         columns=df_columns,
     ).astype(
         dtype={
-            df_columns[0]: "str",
-            df_columns[1]: "datetime64[ns]",
+            df_columns[0]: "str", df_columns[1]: "datetime64[ns]",
             df_columns[2]: "int64",
         }
     )
@@ -190,9 +184,9 @@ def plot_recent_activity(
     df_columns : List[str]
         List of column labels to create.
     """
-    figsize = (12, 6)
-    title = "Daily commits"
     y_label = "Number of commits"
+    title = "Daily commits"
+    figsize = (12, 6)
     x_label = "Date"
     if activity is None:
         # added next line instead of second line down
@@ -207,9 +201,9 @@ def plot_recent_activity(
     )
     ax.set_ylim(bottom=-1)
     ax.xaxis.set_major_formatter(formatter=mdates.DateFormatter("%m-%d"))
-    ax.set_ylabel(ylabel=y_label, fontweight="bold")
-    ax.set_xlabel(xlabel=x_label, fontweight="bold")
-    ax.set_title(label=title, fontweight="bold")
+    ax.set_ylabel(ylabel=y_label)
+    ax.set_xlabel(xlabel=x_label)
+    ax.set_title(label=title)
     median_value = commits[df_columns[2]].median()
     ax.axhline(y=median_value, color="#33bbee", label=int(median_value))
     ax.legend(frameon=False)
