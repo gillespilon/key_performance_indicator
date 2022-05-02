@@ -96,7 +96,7 @@ def repository_paths(*, column: str, repositories: Path) -> List[Path]:
     List[Path]
     """
     return [
-        Path.home() / "documents" / "websites" / repository_path
+        Path.home() / "documents" / repository_path
         for repository_path in ds.read_file(
             file_name=repositories,
             usecols=[column],
